@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import database.ConexaoBanco;
@@ -37,7 +32,7 @@ public class ProdutoDAO {
         }
     }
     public List<Produto> listarProdutos() {
-        List<Produto> produtos = new ArrayList<Produto>();
+        List<Produto> produtos = new ArrayList<>();
         String sql = "SELECT * FROM produto";
         try {
             Connection connection = ConexaoBanco.getConexao();
