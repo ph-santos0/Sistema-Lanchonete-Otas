@@ -62,6 +62,7 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tableProdutoLista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(tableProdutoLista);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
