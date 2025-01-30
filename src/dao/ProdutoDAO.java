@@ -16,7 +16,7 @@ import model.Produto;
  */
 public class ProdutoDAO {
     public void inserir(Produto produto) {
-        String sql = "INSERT INTO produto (codigo, nome, estoque, valor, imposto, unidade) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO produto (codigo, nome, estoque, valor, imposto, unidade) VALUES (?, ?, ?, ?, ?, ?);";
         try {
             Connection connection = ConexaoBanco.getConexao();
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -33,24 +33,76 @@ public class ProdutoDAO {
     }
     public List<Produto> listarProdutos() {
         List<Produto> produtos = new ArrayList<>();
-        String sql = "SELECT * FROM produto";
+        String sql = "SELECT * FROM produto;";
         try {
             Connection connection = ConexaoBanco.getConexao();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Produto produto = new Produto(
-                        resultSet.getInt("codigo"),
-                        resultSet.getString("nome"),
-                        resultSet.getInt("estoque"),
-                        resultSet.getDouble("valor"),
-                        resultSet.getDouble("imposto"),
-                        resultSet.getString("unidade")
+                    resultSet.getInt("codigo"),
+                    resultSet.getString("nome"),
+                    resultSet.getInt("estoque"),
+                    resultSet.getDouble("valor"),
+                    resultSet.getDouble("imposto"),
+                    resultSet.getString("unidade")
                 );
                 produtos.add(produto);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao listar produtos", e);
+        }
+        return produtos;
+    }
+    
+    public List<Produto> procurarPorCodigo(int codigo) {
+        List<Produto> produtos = new ArrayList<>();
+        String sql = "SELECT * FROM produto WHERE codigo = ? ;";
+        try {
+            Connection connection = ConexaoBanco.getConexao();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, codigo);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Produto produto = new Produto(
+                    resultSet.getInt("codigo"),
+                    resultSet.getString("nome"),
+                    resultSet.getInt("estoque"),
+                    resultSet.getDouble("valor"),
+                    resultSet.getDouble("imposto"),
+                    resultSet.getString("unidade")
+                );
+                System.out.println(produto);
+                produtos.add(produto);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+            throw new RuntimeException("Erro ao procurar produto pelo código", e);
+        }
+        return produtos;
+    }
+    
+        public List<Produto> procurarPorNome(String nome) {
+        List<Produto> produtos = new ArrayList<>();
+        String sql = "SELECT * FROM produto WHERE nome = ?;";
+        try {
+            Connection connection = ConexaoBanco.getConexao();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, nome);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Produto produto = new Produto(
+                    resultSet.getInt("codigo"),
+                    resultSet.getString("nome"),
+                    resultSet.getInt("estoque"),
+                    resultSet.getDouble("valor"),
+                    resultSet.getDouble("imposto"),
+                    resultSet.getString("unidade")
+                );
+                produtos.add(produto);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao procurar produto pelo código", e);
         }
         return produtos;
     }

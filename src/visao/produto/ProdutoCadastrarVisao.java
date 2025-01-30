@@ -1,4 +1,4 @@
-package visao;
+package visao.produto;
 
 import controller.ProdutoController;
 import javax.swing.JOptionPane;
@@ -8,9 +8,9 @@ import model.Produto;
  *
  * @author 0077110
  */
-public class ProdutoVisao extends javax.swing.JFrame {
+public class ProdutoCadastrarVisao extends javax.swing.JFrame {
 
-    public ProdutoVisao() {
+    public ProdutoCadastrarVisao() {
         initComponents();
         setTitle("Lanchonete Ota's - Cadastro de Produto");
         setLocationRelativeTo(null);
@@ -159,7 +159,7 @@ public class ProdutoVisao extends javax.swing.JFrame {
                 txtProdutoImposto.getText().length() == 0 ||
                 txtProdutoUnidade.getText().length() == 0
             ) {
-                JOptionPane.showMessageDialog(null, "Você precisa preencher todos os campos.");
+                JOptionPane.showMessageDialog(this, "Você precisa preencher todos os campos.");
                 return;
             }
             Produto produto = new Produto(
@@ -173,22 +173,22 @@ public class ProdutoVisao extends javax.swing.JFrame {
             ProdutoController produtoController = new ProdutoController();
             produtoController.inserir(produto);
             limparCampo();
-            JOptionPane.showMessageDialog(null, "Produto cadastrado:\n" + produto);  
+            JOptionPane.showMessageDialog(this, "Produto cadastrado:\n" + produto);  
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto, tente novamente.");
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar produto, tente novamente.");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProdutoVisao().setVisible(true);
+                new ProdutoCadastrarVisao().setVisible(true);
             }
         });
     }
     
-    public void limparCampo() {
+    private void limparCampo() {
         txtProdutoCodigo.setText("");
         txtProdutoNome.setText("");
         txtProdutoEstoque.setText("");
