@@ -14,6 +14,8 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
 
     public ProdutoConsultarVisao() {
         initComponents();
+        setTitle("Lanchonete Ota's - Consulta de Produto");
+        setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -121,19 +123,17 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
             if (txtProdutoCodigo.getText().length() > 0) {
                 ProdutoController produtoController = new ProdutoController();
                 List<Produto> produtos = produtoController.consultarPorCodigo(Integer.parseInt(txtProdutoCodigo.getText()));
-                DefaultTableModel model = (DefaultTableModel)tableProdutoLista.getModel();
+                DefaultTableModel model = (DefaultTableModel) tableProdutoLista.getModel();
                 model.setNumRows(0);
                 for (Produto produto : produtos) {
-                    System.out.println(produto);
                     model.addRow(produto.getDadosModel());
                 }
             } else if (txtProdutoNome.getText().length() > 0) {
                 ProdutoController produtoController = new ProdutoController();
-                List<Produto> produtos = produtoController.consultarPorNome(txtProdutoCodigo.getText());
-                DefaultTableModel model = (DefaultTableModel)tableProdutoLista.getModel();
+                List<Produto> produtos = produtoController.consultarPorNome(txtProdutoNome.getText());
+                DefaultTableModel model = (DefaultTableModel) tableProdutoLista.getModel();
                 model.setNumRows(0);
                 for (Produto produto : produtos) {
-                    System.out.println(produto);
                     model.addRow(produto.getDadosModel());
                 }
             }

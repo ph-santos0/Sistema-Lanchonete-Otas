@@ -57,7 +57,7 @@ public class ProdutoDAO {
 
     public List<Produto> procurarPorCodigo(int codigo) {
         List<Produto> produtos = new ArrayList<>();
-        String sql = "SELECT * FROM produto WHERE codigo = ? ;";
+        String sql = "SELECT * FROM produto WHERE codigo = ?;";
         try {
             Connection connection = ConexaoBanco.getConexao();
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -71,12 +71,11 @@ public class ProdutoDAO {
                 produto.setValor(resultSet.getDouble("valor"));
                 produto.setImposto(resultSet.getDouble("imposto"));
                 produto.setUnidade(resultSet.getString("unidade"));
-                System.out.println(produto);
                 produtos.add(produto);
             }
         } catch (SQLException e) {
             System.out.println(e);
-            throw new RuntimeException("Erro ao procurar produto pelo código", e);
+            throw new RuntimeException("Erro ao procurar produto pelo codigo", e);
         }
         return produtos;
     }
@@ -100,7 +99,8 @@ public class ProdutoDAO {
                 produtos.add(produto);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao procurar produto pelo código", e);
+            System.out.println(e);
+            throw new RuntimeException("Erro ao procurar produto pelo nome", e);
         }
         return produtos;
     }
