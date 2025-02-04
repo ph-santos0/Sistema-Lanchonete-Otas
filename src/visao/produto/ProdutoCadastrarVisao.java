@@ -151,7 +151,6 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-<<<<<<< HEAD:src/visao/ProdutoVisao.java
             if (txtProdutoCodigo.getText().length() == 0
                     || txtProdutoNome.getText().length() == 0
                     || txtProdutoEstoque.getText().length() == 0
@@ -159,34 +158,28 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
                     || txtProdutoImposto.getText().length() == 0
                     || txtProdutoUnidade.getText().length() == 0) {
                 JOptionPane.showMessageDialog(null, "Você precisa preencher todos os campos.");
-=======
-            if (
-                txtProdutoCodigo.getText().length() == 0 || 
-                txtProdutoNome.getText().length() == 0 ||
-                txtProdutoEstoque.getText().length() == 0 ||
-                txtProdutoValor.getText().length() == 0 ||
-                txtProdutoImposto.getText().length() == 0 ||
-                txtProdutoUnidade.getText().length() == 0
-            ) {
-                JOptionPane.showMessageDialog(this, "Você precisa preencher todos os campos.");
->>>>>>> main:src/visao/produto/ProdutoCadastrarVisao.java
-                return;
+                if (txtProdutoCodigo.getText().length() == 0
+                        || txtProdutoNome.getText().length() == 0
+                        || txtProdutoEstoque.getText().length() == 0
+                        || txtProdutoValor.getText().length() == 0
+                        || txtProdutoImposto.getText().length() == 0
+                        || txtProdutoUnidade.getText().length() == 0) {
+                    JOptionPane.showMessageDialog(this, "Você precisa preencher todos os campos.");
+                    return;
+                }
+                Produto produto = new Produto();
+                produto.setCodigo(Integer.parseInt(txtProdutoCodigo.getText()));
+                produto.setNome(txtProdutoNome.getText());
+                produto.setEstoque(Integer.parseInt(txtProdutoEstoque.getText()));
+                produto.setValor(Double.parseDouble(txtProdutoValor.getText().replaceAll(",", ".")));
+                produto.setImposto(Double.parseDouble(txtProdutoImposto.getText()));
+                produto.setUnidade(txtProdutoUnidade.getText());
+                ProdutoController produtoController = new ProdutoController();
+                produtoController.inserir(produto);
+                limparCampo();
+                JOptionPane.showMessageDialog(null, "Produto cadastrado:\n" + produto);
+                JOptionPane.showMessageDialog(this, "Produto cadastrado:\n" + produto);
             }
-            Produto produto = new Produto();
-            produto.setCodigo(Integer.parseInt(txtProdutoCodigo.getText()));
-            produto.setNome(txtProdutoNome.getText());
-            produto.setEstoque(Integer.parseInt(txtProdutoEstoque.getText()));
-            produto.setValor(Double.parseDouble(txtProdutoValor.getText().replaceAll(",", ".")));
-            produto.setImposto(Double.parseDouble(txtProdutoImposto.getText()));
-            produto.setUnidade(txtProdutoUnidade.getText());
-            ProdutoController produtoController = new ProdutoController();
-            produtoController.inserir(produto);
-            limparCampo();
-<<<<<<< HEAD:src/visao/ProdutoVisao.java
-            JOptionPane.showMessageDialog(null, "Produto cadastrado:\n" + produto);
-=======
-            JOptionPane.showMessageDialog(this, "Produto cadastrado:\n" + produto);  
->>>>>>> main:src/visao/produto/ProdutoCadastrarVisao.java
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(this, "Erro ao cadastrar produto, tente novamente.");
@@ -200,13 +193,8 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
             }
         });
     }
-<<<<<<< HEAD:src/visao/ProdutoVisao.java
 
-    public void limparCampo() {
-=======
-    
     private void limparCampo() {
->>>>>>> main:src/visao/produto/ProdutoCadastrarVisao.java
         txtProdutoCodigo.setText("");
         txtProdutoNome.setText("");
         txtProdutoEstoque.setText("");
