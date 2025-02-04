@@ -2,7 +2,7 @@ package model;
 
 /**
  *
- * @author wfaib0
+ * @author wfabi0
  */
 public class ItemNFVenda {
     private int codigo;

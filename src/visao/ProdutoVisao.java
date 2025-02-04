@@ -6,7 +6,7 @@ import model.Produto;
 
 /**
  *
- * @author 0077110
+ * @author wfabi0
  */
 public class ProdutoVisao extends javax.swing.JFrame {
 
@@ -151,29 +151,26 @@ public class ProdutoVisao extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            if (
-                txtProdutoCodigo.getText().length() == 0 || 
-                txtProdutoNome.getText().length() == 0 ||
-                txtProdutoEstoque.getText().length() == 0 ||
-                txtProdutoValor.getText().length() == 0 ||
-                txtProdutoImposto.getText().length() == 0 ||
-                txtProdutoUnidade.getText().length() == 0
-            ) {
+            if (txtProdutoCodigo.getText().length() == 0
+                    || txtProdutoNome.getText().length() == 0
+                    || txtProdutoEstoque.getText().length() == 0
+                    || txtProdutoValor.getText().length() == 0
+                    || txtProdutoImposto.getText().length() == 0
+                    || txtProdutoUnidade.getText().length() == 0) {
                 JOptionPane.showMessageDialog(null, "Você precisa preencher todos os campos.");
                 return;
             }
-            Produto produto = new Produto(
-                Integer.parseInt(txtProdutoCodigo.getText()), 
-                txtProdutoNome.getText(), 
-                Integer.parseInt(txtProdutoEstoque.getText()), 
-                Double.parseDouble(txtProdutoValor.getText().replaceAll(",", ".")), 
-                Double.parseDouble(txtProdutoImposto.getText()), 
-                txtProdutoUnidade.getText()
-            );
+            Produto produto = new Produto();
+            produto.setCodigo(Integer.parseInt(txtProdutoCodigo.getText()));
+            produto.setNome(txtProdutoNome.getText());
+            produto.setEstoque(Integer.parseInt(txtProdutoEstoque.getText()));
+            produto.setValor(Double.parseDouble(txtProdutoValor.getText().replaceAll(",", ".")));
+            produto.setImposto(Double.parseDouble(txtProdutoImposto.getText()));
+            produto.setUnidade(txtProdutoUnidade.getText());
             ProdutoController produtoController = new ProdutoController();
             produtoController.inserir(produto);
             limparCampo();
-            JOptionPane.showMessageDialog(null, "Produto cadastrado:\n" + produto);  
+            JOptionPane.showMessageDialog(null, "Produto cadastrado:\n" + produto);
         } catch (Exception e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto, tente novamente.");
@@ -187,7 +184,7 @@ public class ProdutoVisao extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public void limparCampo() {
         txtProdutoCodigo.setText("");
         txtProdutoNome.setText("");

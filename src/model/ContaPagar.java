@@ -4,7 +4,7 @@ import java.sql.Date;
 
 /**
  *
- * @author wfaib0
+ * @author wfabi0
  */
 public class ContaPagar {
     private int codigo;

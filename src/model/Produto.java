@@ -2,9 +2,10 @@ package model;
 
 /**
  *
- * @author 0077110
+ * @author wfabi0
  */
 public class Produto {
+
     private int codigo;
     private String nome;
     private int estoque;
@@ -12,7 +13,7 @@ public class Produto {
     private double imposto;
     private String unidade;
 
-    public Produto(int codigo, String nome, int estoque, double valor, double imposto, String unidade) {
+    public Produto() {
         this.codigo = codigo;
         this.nome = nome;
         this.estoque = estoque;

@@ -12,11 +12,12 @@ import model.Produto;
 
 /**
  *
- * @author 0077110
+ * @author wfabi0
  */
 public class ProdutoDAO {
+
     public void inserir(Produto produto) {
-        String sql = "INSERT INTO produto (codigo, nome, estoque, valor, imposto, unidade) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO produto (codigo, nome, estoque, valor, imposto, unidade) VALUES (?, ?, ?, ?, ?, ?);";
         try {
             Connection connection = ConexaoBanco.getConexao();
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -31,22 +32,22 @@ public class ProdutoDAO {
             throw new RuntimeException("Erro ao inserir produto", e);
         }
     }
+
     public List<Produto> listarProdutos() {
         List<Produto> produtos = new ArrayList<>();
-        String sql = "SELECT * FROM produto";
+        String sql = "SELECT * FROM produto;";
         try {
             Connection connection = ConexaoBanco.getConexao();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                Produto produto = new Produto(
-                        resultSet.getInt("codigo"),
-                        resultSet.getString("nome"),
-                        resultSet.getInt("estoque"),
-                        resultSet.getDouble("valor"),
-                        resultSet.getDouble("imposto"),
-                        resultSet.getString("unidade")
-                );
+                Produto produto = new Produto();
+                produto.setCodigo(resultSet.getInt("codigo"));
+                produto.setNome(resultSet.getString("nome"));
+                produto.setEstoque(resultSet.getInt("estoque"));
+                produto.setValor(resultSet.getDouble("valor"));
+                produto.setImposto(resultSet.getDouble("imposto"));
+                produto.setUnidade(resultSet.getString("unidade"));
                 produtos.add(produto);
             }
         } catch (SQLException e) {

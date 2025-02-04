@@ -7,7 +7,7 @@ import java.util.Properties;
 
 /**
  *
- * @author 0077110
+ * @author wfabi0
  */
 public class ConexaoBanco {
     private static final String URL = "jdbc:mysql://localhost:3306/dbotas";
