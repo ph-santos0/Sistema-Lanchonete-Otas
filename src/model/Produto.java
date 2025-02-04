@@ -74,4 +74,9 @@ public class Produto {
     public String toString() {
         return "Produto{" + "codigo=" + codigo + ", nome='" + nome + '\'' + ", estoque=" + estoque + ", valor=" + valor + ", imposto=" + imposto + ", unidade='" + unidade + '\'' + '}';
     }
+    
+    public Object[] getDadosModel() {
+        Object[] retorno = new Object[] { getCodigo(), getNome(), getValor(), getEstoque(), getImposto(), getUnidade() };
+        return retorno;
+    }
 }

@@ -1,4 +1,4 @@
-package visao;
+package visao.produto;
 
 import controller.ProdutoController;
 import javax.swing.JOptionPane;
@@ -8,9 +8,9 @@ import model.Produto;
  *
  * @author wfabi0
  */
-public class ProdutoVisao extends javax.swing.JFrame {
+public class ProdutoCadastrarVisao extends javax.swing.JFrame {
 
-    public ProdutoVisao() {
+    public ProdutoCadastrarVisao() {
         initComponents();
         setTitle("Lanchonete Ota's - Cadastro de Produto");
         setLocationRelativeTo(null);
@@ -151,6 +151,7 @@ public class ProdutoVisao extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
+<<<<<<< HEAD:src/visao/ProdutoVisao.java
             if (txtProdutoCodigo.getText().length() == 0
                     || txtProdutoNome.getText().length() == 0
                     || txtProdutoEstoque.getText().length() == 0
@@ -158,6 +159,17 @@ public class ProdutoVisao extends javax.swing.JFrame {
                     || txtProdutoImposto.getText().length() == 0
                     || txtProdutoUnidade.getText().length() == 0) {
                 JOptionPane.showMessageDialog(null, "Você precisa preencher todos os campos.");
+=======
+            if (
+                txtProdutoCodigo.getText().length() == 0 || 
+                txtProdutoNome.getText().length() == 0 ||
+                txtProdutoEstoque.getText().length() == 0 ||
+                txtProdutoValor.getText().length() == 0 ||
+                txtProdutoImposto.getText().length() == 0 ||
+                txtProdutoUnidade.getText().length() == 0
+            ) {
+                JOptionPane.showMessageDialog(this, "Você precisa preencher todos os campos.");
+>>>>>>> main:src/visao/produto/ProdutoCadastrarVisao.java
                 return;
             }
             Produto produto = new Produto();
@@ -170,22 +182,31 @@ public class ProdutoVisao extends javax.swing.JFrame {
             ProdutoController produtoController = new ProdutoController();
             produtoController.inserir(produto);
             limparCampo();
+<<<<<<< HEAD:src/visao/ProdutoVisao.java
             JOptionPane.showMessageDialog(null, "Produto cadastrado:\n" + produto);
+=======
+            JOptionPane.showMessageDialog(this, "Produto cadastrado:\n" + produto);  
+>>>>>>> main:src/visao/produto/ProdutoCadastrarVisao.java
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto, tente novamente.");
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar produto, tente novamente.");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProdutoVisao().setVisible(true);
+                new ProdutoCadastrarVisao().setVisible(true);
             }
         });
     }
+<<<<<<< HEAD:src/visao/ProdutoVisao.java
 
     public void limparCampo() {
+=======
+    
+    private void limparCampo() {
+>>>>>>> main:src/visao/produto/ProdutoCadastrarVisao.java
         txtProdutoCodigo.setText("");
         txtProdutoNome.setText("");
         txtProdutoEstoque.setText("");

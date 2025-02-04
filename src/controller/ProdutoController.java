@@ -23,7 +23,20 @@ public class ProdutoController {
     }
 
     public List<Produto> getTodosProdutos() {
-        return produtoDAO.listarProdutos();
+        try {
+            return produtoDAO.listarProdutos();
+        } catch (RuntimeException e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+    
+    public List<Produto> consultarPorCodigo(int codigo) {
+        return produtoDAO.procurarPorCodigo(codigo);
+    }
+    
+    public List<Produto> consultarPorNome(String nome) {
+        return produtoDAO.procurarPorNome(nome);
     }
 
 }

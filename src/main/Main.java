@@ -1,6 +1,7 @@
 package main;
 
-import visao.ProdutoVisao;
+import visao.produto.ProdutoCadastrarVisao;
+import visao.produto.ProdutoConsultarVisao;
 
 /**
  *
@@ -9,8 +10,10 @@ import visao.ProdutoVisao;
 public class Main {
 
     public static void main(String[] args) {
-        ProdutoVisao produtoVisao = new ProdutoVisao();
-        produtoVisao.setVisible(true);
+        ProdutoCadastrarVisao produtoCadastrarVisao = new ProdutoCadastrarVisao();
+        ProdutoConsultarVisao produtoConsultarVisao = new ProdutoConsultarVisao();
+        produtoCadastrarVisao.setVisible(false);
+        produtoConsultarVisao.setVisible(true);
     }
 
 }
