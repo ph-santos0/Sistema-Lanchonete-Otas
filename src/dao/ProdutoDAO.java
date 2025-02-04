@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Produto;
@@ -41,7 +40,6 @@ public class ProdutoDAO {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-<<<<<<< HEAD
                 Produto produto = new Produto();
                 produto.setCodigo(resultSet.getInt("codigo"));
                 produto.setNome(resultSet.getString("nome"));
@@ -49,16 +47,6 @@ public class ProdutoDAO {
                 produto.setValor(resultSet.getDouble("valor"));
                 produto.setImposto(resultSet.getDouble("imposto"));
                 produto.setUnidade(resultSet.getString("unidade"));
-=======
-                Produto produto = new Produto(
-                    resultSet.getInt("codigo"),
-                    resultSet.getString("nome"),
-                    resultSet.getInt("estoque"),
-                    resultSet.getDouble("valor"),
-                    resultSet.getDouble("imposto"),
-                    resultSet.getString("unidade")
-                );
->>>>>>> main
                 produtos.add(produto);
             }
         } catch (SQLException e) {
@@ -66,7 +54,7 @@ public class ProdutoDAO {
         }
         return produtos;
     }
-    
+
     public List<Produto> procurarPorCodigo(int codigo) {
         List<Produto> produtos = new ArrayList<>();
         String sql = "SELECT * FROM produto WHERE codigo = ? ;";
@@ -76,14 +64,13 @@ public class ProdutoDAO {
             statement.setInt(1, codigo);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Produto produto = new Produto(
-                    resultSet.getInt("codigo"),
-                    resultSet.getString("nome"),
-                    resultSet.getInt("estoque"),
-                    resultSet.getDouble("valor"),
-                    resultSet.getDouble("imposto"),
-                    resultSet.getString("unidade")
-                );
+                Produto produto = new Produto();
+                produto.setCodigo(resultSet.getInt("codigo"));
+                produto.setNome(resultSet.getString("nome"));
+                produto.setEstoque(resultSet.getInt("estoque"));
+                produto.setValor(resultSet.getDouble("valor"));
+                produto.setImposto(resultSet.getDouble("imposto"));
+                produto.setUnidade(resultSet.getString("unidade"));
                 System.out.println(produto);
                 produtos.add(produto);
             }
@@ -93,8 +80,8 @@ public class ProdutoDAO {
         }
         return produtos;
     }
-    
-        public List<Produto> procurarPorNome(String nome) {
+
+    public List<Produto> procurarPorNome(String nome) {
         List<Produto> produtos = new ArrayList<>();
         String sql = "SELECT * FROM produto WHERE nome = ?;";
         try {
@@ -103,14 +90,13 @@ public class ProdutoDAO {
             statement.setString(1, nome);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Produto produto = new Produto(
-                    resultSet.getInt("codigo"),
-                    resultSet.getString("nome"),
-                    resultSet.getInt("estoque"),
-                    resultSet.getDouble("valor"),
-                    resultSet.getDouble("imposto"),
-                    resultSet.getString("unidade")
-                );
+                Produto produto = new Produto();
+                produto.setCodigo(resultSet.getInt("codigo"));
+                produto.setNome(resultSet.getString("nome"));
+                produto.setEstoque(resultSet.getInt("estoque"));
+                produto.setValor(resultSet.getDouble("valor"));
+                produto.setImposto(resultSet.getDouble("imposto"));
+                produto.setUnidade(resultSet.getString("unidade"));
                 produtos.add(produto);
             }
         } catch (SQLException e) {
