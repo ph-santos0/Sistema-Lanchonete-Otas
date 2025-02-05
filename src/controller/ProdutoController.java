@@ -22,6 +22,16 @@ public class ProdutoController {
         }
     }
 
+    public boolean editar(Produto produto) {
+        try {
+            produtoDAO.atualizar(produto);
+            return true;
+        } catch (RuntimeException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+
     public List<Produto> getTodosProdutos() {
         try {
             return produtoDAO.listarProdutos();
@@ -30,11 +40,11 @@ public class ProdutoController {
             return null;
         }
     }
-    
+
     public List<Produto> consultarPorCodigo(int codigo) {
         return produtoDAO.procurarPorCodigo(codigo);
     }
-    
+
     public List<Produto> consultarPorNome(String nome) {
         return produtoDAO.procurarPorNome(nome);
     }

@@ -32,6 +32,23 @@ public class ProdutoDAO {
         }
     }
 
+    public void atualizar(Produto produto) {
+        String sql = "UPDATE produto SET nome = ?, estoque = ?, valor = ?, imposto = ?, unidade = ? WHERE codigo = ?;";
+        try {
+            Connection connection = ConexaoBanco.getConexao();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, produto.getNome());
+            statement.setInt(2, produto.getEstoque());
+            statement.setDouble(3, produto.getValor());
+            statement.setDouble(4, produto.getImposto());
+            statement.setString(5, produto.getUnidade());
+            statement.setInt(6, produto.getCodigo());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao inserir produto", e);
+        }
+    }
+
     public List<Produto> listarProdutos() {
         List<Produto> produtos = new ArrayList<>();
         String sql = "SELECT * FROM produto;";

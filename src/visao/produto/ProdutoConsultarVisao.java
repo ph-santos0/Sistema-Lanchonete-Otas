@@ -65,6 +65,11 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
             }
         });
         tableProdutoLista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tableProdutoLista.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableProdutoListaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableProdutoLista);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -142,6 +147,30 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Um erro ocorreu, tente novamente.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tableProdutoListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProdutoListaMouseClicked
+
+        try {
+            Integer codigo = (Integer) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 0);
+            String nome = (String) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 1);
+            Double valor = (Double) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 2);
+            Integer estoque = (Integer) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 3);
+            Double imposto = (Double) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 4);
+            String unidade = (String) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 5);
+            Produto produto = new Produto();
+            produto.setCodigo(codigo);
+            produto.setNome(nome);
+            produto.setValor(valor);
+            produto.setEstoque(estoque);
+            produto.setImposto(imposto);
+            produto.setUnidade(unidade);
+            ProdutoCadastrarVisao cadastrarVisao = new ProdutoCadastrarVisao(produto);
+            cadastrarVisao.setVisible(true);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }//GEN-LAST:event_tableProdutoListaMouseClicked
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
