@@ -5,6 +5,10 @@
  */
 package visao.usuario;
 
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.UIManager;
 import visao.produto.ProdutoCadastrarVisao;
 import visao.produto.ProdutoConsultarVisao;
@@ -20,9 +24,18 @@ public class TelaMenu extends javax.swing.JFrame {
      * Creates new form TelaMenu
      */
     public TelaMenu() {
-        try { 
-           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {}
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+//        ImageIcon imagemFundo = new ImageIcon("public/logo.jpg");
+//        JLabel labelFundo = new JLabel(imagemFundo);
+//        labelFundo.setBounds(0, 0, getWidth(), getHeight());
+//        setContentPane(labelFundo);
+//        setLayout(null);
+        
         initComponents();
         setTitle("Lanchonete Ota's - Menu");
         setLocationRelativeTo(null);
@@ -51,6 +64,11 @@ public class TelaMenu extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -154,7 +172,7 @@ public class TelaMenu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnMenuVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
@@ -188,6 +206,10 @@ public class TelaMenu extends javax.swing.JFrame {
         telaVenda.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnMenuVendaActionPerformed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments

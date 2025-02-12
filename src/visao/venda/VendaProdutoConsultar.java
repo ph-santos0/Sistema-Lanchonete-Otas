@@ -2,6 +2,7 @@ package visao.venda;
 
 import visao.produto.*;
 import controller.ProdutoController;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -15,23 +16,25 @@ import model.Produto;
  * @author 0077110
  */
 public class VendaProdutoConsultar extends javax.swing.JFrame {
-    
+
     private List<ItemNFVenda> itensNFVenda;
 
     public VendaProdutoConsultar() {
         initComponents();
-        try { 
-           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {}
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+        }
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
     }
-    
+
     public VendaProdutoConsultar(List<ItemNFVenda> itensNFVenda) {
         initComponents();
-        try { 
-           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {}
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+        }
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
         this.itensNFVenda = itensNFVenda;
@@ -50,9 +53,26 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
         tableProdutoLista = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Código:");
+
+        txtProdutoCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtProdutoCodigoKeyPressed(evt);
+            }
+        });
+
+        txtProdutoNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtProdutoNomeKeyPressed(evt);
+            }
+        });
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Nome:");
@@ -98,24 +118,19 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtProdutoCodigo))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtProdutoCodigo))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtProdutoNome, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)))
-                        .addContainerGap())
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtProdutoNome, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(37, 37, 37))))
+                        .addComponent(jButton1)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,6 +215,78 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_tableProdutoListaMouseClicked
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+
+    }//GEN-LAST:event_formKeyPressed
+
+    private void txtProdutoCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdutoCodigoKeyPressed
+        // TODO add your handling code here:
+        int key = evt.getKeyCode();
+        System.out.println(key);
+        if (key == KeyEvent.VK_ENTER) {
+            try {
+                if (txtProdutoCodigo.getText().length() == 0 && txtProdutoNome.getText().length() == 0) {
+                    JOptionPane.showMessageDialog(this, "Você precisa inserir um código ou um nome do produto.");
+                    return;
+                }
+                if (txtProdutoCodigo.getText().length() > 0) {
+                    ProdutoController produtoController = new ProdutoController();
+                    List<Produto> produtos = produtoController.consultarPorCodigo(Integer.parseInt(txtProdutoCodigo.getText()));
+                    DefaultTableModel model = (DefaultTableModel) tableProdutoLista.getModel();
+                    model.setNumRows(0);
+                    for (Produto produto : produtos) {
+                        model.addRow(produto.getDadosModel());
+                    }
+                } else if (txtProdutoNome.getText().length() > 0) {
+                    ProdutoController produtoController = new ProdutoController();
+                    List<Produto> produtos = produtoController.consultarPorNome(txtProdutoNome.getText());
+                    DefaultTableModel model = (DefaultTableModel) tableProdutoLista.getModel();
+                    model.setNumRows(0);
+                    for (Produto produto : produtos) {
+                        model.addRow(produto.getDadosModel());
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(this, "Um erro ocorreu, tente novamente.");
+            }
+        }
+    }//GEN-LAST:event_txtProdutoCodigoKeyPressed
+
+    private void txtProdutoNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdutoNomeKeyPressed
+        // TODO add your handling code here:
+        int key = evt.getKeyCode();
+        System.out.println(key);
+        if (key == KeyEvent.VK_ENTER) {
+            try {
+                if (txtProdutoCodigo.getText().length() == 0 && txtProdutoNome.getText().length() == 0) {
+                    JOptionPane.showMessageDialog(this, "Você precisa inserir um código ou um nome do produto.");
+                    return;
+                }
+                if (txtProdutoCodigo.getText().length() > 0) {
+                    ProdutoController produtoController = new ProdutoController();
+                    List<Produto> produtos = produtoController.consultarPorCodigo(Integer.parseInt(txtProdutoCodigo.getText()));
+                    DefaultTableModel model = (DefaultTableModel) tableProdutoLista.getModel();
+                    model.setNumRows(0);
+                    for (Produto produto : produtos) {
+                        model.addRow(produto.getDadosModel());
+                    }
+                } else if (txtProdutoNome.getText().length() > 0) {
+                    ProdutoController produtoController = new ProdutoController();
+                    List<Produto> produtos = produtoController.consultarPorNome(txtProdutoNome.getText());
+                    DefaultTableModel model = (DefaultTableModel) tableProdutoLista.getModel();
+                    model.setNumRows(0);
+                    for (Produto produto : produtos) {
+                        model.addRow(produto.getDadosModel());
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(this, "Um erro ocorreu, tente novamente.");
+            }
+        }
+    }//GEN-LAST:event_txtProdutoNomeKeyPressed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
