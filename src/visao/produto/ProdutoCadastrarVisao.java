@@ -2,6 +2,7 @@ package visao.produto;
 
 import controller.ProdutoController;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import model.Produto;
 
 /**
@@ -14,6 +15,9 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
 
     public ProdutoCadastrarVisao() {
         initComponents();
+        try { 
+           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
         setTitle("Lanchonete Ota's - Cadastro de Produto");
         setLocationRelativeTo(null);
         this.produto = null;
@@ -21,6 +25,9 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
 
     public ProdutoCadastrarVisao(Produto produto) {
         initComponents();
+        try { 
+           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
         setTitle("Lanchonete Ota's - Edição de Produto");
         setLocationRelativeTo(null);
         this.produto = produto;

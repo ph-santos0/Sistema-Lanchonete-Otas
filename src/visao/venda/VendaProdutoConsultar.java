@@ -5,6 +5,7 @@ import controller.ProdutoController;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import model.ItemNFVenda;
 import model.Produto;
@@ -19,12 +20,18 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
 
     public VendaProdutoConsultar() {
         initComponents();
+        try { 
+           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
     }
     
     public VendaProdutoConsultar(List<ItemNFVenda> itensNFVenda) {
         initComponents();
+        try { 
+           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
         this.itensNFVenda = itensNFVenda;

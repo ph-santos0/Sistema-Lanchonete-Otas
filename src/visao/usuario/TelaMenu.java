@@ -5,6 +5,7 @@
  */
 package visao.usuario;
 
+import javax.swing.UIManager;
 import visao.produto.ProdutoCadastrarVisao;
 import visao.produto.ProdutoConsultarVisao;
 import visao.venda.TelaVenda;
@@ -19,6 +20,9 @@ public class TelaMenu extends javax.swing.JFrame {
      * Creates new form TelaMenu
      */
     public TelaMenu() {
+        try { 
+           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
         initComponents();
         setTitle("Lanchonete Ota's - Menu");
         setLocationRelativeTo(null);

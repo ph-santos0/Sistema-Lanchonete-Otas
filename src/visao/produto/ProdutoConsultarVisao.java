@@ -3,6 +3,7 @@ package visao.produto;
 import controller.ProdutoController;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
 
@@ -14,6 +15,9 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
 
     public ProdutoConsultarVisao() {
         initComponents();
+        try { 
+           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
     }

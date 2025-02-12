@@ -5,6 +5,8 @@
  */
 package visao.usuario;
 
+import javax.swing.UIManager;
+
 /**
  *
  * @author 0077110
@@ -16,6 +18,9 @@ public class TelaLogin extends javax.swing.JFrame {
      */
     public TelaLogin() {
         initComponents();
+        try { 
+           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
     }
 
     /**
