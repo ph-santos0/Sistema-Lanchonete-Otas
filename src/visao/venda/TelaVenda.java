@@ -5,16 +5,27 @@
  */
 package visao.venda;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+import javax.swing.table.DefaultTableModel;
 import model.ItemNFVenda;
+import model.NFVenda;
 
 /**
  *
  * @author 0077110
  */
 public class TelaVenda extends javax.swing.JFrame {
-    
+
     private List<ItemNFVenda> itensNFVenda;
 
     /**
@@ -25,14 +36,51 @@ public class TelaVenda extends javax.swing.JFrame {
         setTitle("Lanchonete Ota's - Tela Venda");
         setLocationRelativeTo(null);
         setLocationRelativeTo(null);
+        preencherTabela();
+        atualizarData();
     }
-    
-    public TelaVenda(List<ItemNFVenda> itensNFVenda)  {
+
+    public TelaVenda(List<ItemNFVenda> itensNFVenda) {
         initComponents();
         setTitle("Lanchonete Ota's - Venda");
         setLocationRelativeTo(null);
         this.itensNFVenda = itensNFVenda;
-        System.out.println(itensNFVenda.toString());
+        preencherTabela();
+        atualizarData();
+    }
+
+    private void preencherTabela() {
+        Double valor = 0.0;
+        try {
+            if (!itensNFVenda.isEmpty()) {
+                NFVenda nfVenda = new NFVenda();
+                DefaultTableModel model = (DefaultTableModel) tableItensNF.getModel();
+                model.setNumRows(0);
+                for (ItemNFVenda itemNFVenda : itensNFVenda) {
+                    Object[] obj = {
+                        itemNFVenda.getCodigo_produto(),
+                        itemNFVenda.getProduto().getNome(),
+                        itemNFVenda.getProduto().getValor(),
+                        itemNFVenda.getQuantidade(),
+                        itemNFVenda.getValor_total()
+                    };
+                    valor += itemNFVenda.getValor_total();
+                    model.addRow(obj);
+                }
+            } else {
+                tableItensNF.setVisible(false);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        infoTotal.setText(formatarValor(valor));
+    }
+
+    private void atualizarData() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        ZonedDateTime nowInBrazil = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+        String formattedDate = nowInBrazil.format(formatter);
+        infoData.setText(formattedDate);
     }
 
     /**
@@ -53,6 +101,10 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtCodigoProduto = new javax.swing.JTextField();
         btnBuscarProduto = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableItensNF = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        infoTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,7 +114,7 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("CPF Cliente");
 
-        infoData.setText("12/02/2025 07:50");
+        infoData.setText("data");
 
         jLabel3.setText("Insira o codigo do Produto");
 
@@ -73,17 +125,40 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
 
+        tableItensNF.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Codigo", "Nome", "Preço", "Quantidade", "Total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableItensNF);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setText("Total:");
+
+        infoTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        infoTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        infoTotal.setText("R$ 0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(infoData)
-                        .addGap(214, 214, 214)
-                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -94,8 +169,22 @@ public class TelaVenda extends javax.swing.JFrame {
                             .addComponent(txtVendaCpfCliente)
                             .addComponent(txtCodigoProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(264, Short.MAX_VALUE))
+                        .addComponent(btnBuscarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(infoData)
+                        .addGap(214, 214, 214)
+                        .addComponent(jLabel1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(infoTotal)
+                            .addComponent(jLabel4))
+                        .addGap(20, 20, 20)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,8 +204,14 @@ public class TelaVenda extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtCodigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarProduto))
-                .addContainerGap(357, Short.MAX_VALUE))
+                    .addComponent(btnBuscarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(infoTotal)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -131,6 +226,11 @@ public class TelaVenda extends javax.swing.JFrame {
         vendaProdutoConsultar.setVisible(true);
     }//GEN-LAST:event_btnBuscarProdutoActionPerformed
 
+    private String formatarValor(Double valor) {
+        NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        return formatoMoeda.format(valor);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -170,11 +270,15 @@ public class TelaVenda extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarProduto;
     private javax.swing.JLabel infoData;
+    private javax.swing.JLabel infoTotal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollBar jScrollBar2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tableItensNF;
     private javax.swing.JTextField txtCodigoProduto;
     private javax.swing.JTextField txtVendaCpfCliente;
     // End of variables declaration//GEN-END:variables

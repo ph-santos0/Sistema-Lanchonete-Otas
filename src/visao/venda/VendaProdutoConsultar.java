@@ -183,6 +183,7 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
             itemNFVenda.setQuantidade(1);
             itemNFVenda.setValor_uni(produto.getValor());
             itemNFVenda.setValor_total(produto.getValor() * itemNFVenda.getQuantidade());
+            itemNFVenda.setProduto(produto);
             itensNFVenda.add(itemNFVenda);
             TelaVenda telaVenda = new TelaVenda(itensNFVenda);
             telaVenda.setVisible(true);
