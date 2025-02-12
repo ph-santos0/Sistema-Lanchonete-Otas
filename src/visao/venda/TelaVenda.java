@@ -19,6 +19,7 @@ import java.util.TimeZone;
 import javax.swing.table.DefaultTableModel;
 import model.ItemNFVenda;
 import model.NFVenda;
+import visao.usuario.TelaMenu;
 
 /**
  *
@@ -105,7 +106,7 @@ public class TelaVenda extends javax.swing.JFrame {
         tableItensNF = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         infoTotal = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnVoltarMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -154,7 +155,12 @@ public class TelaVenda extends javax.swing.JFrame {
         infoTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         infoTotal.setText("R$ 0");
 
-        jButton1.setText("Voltar");
+        btnVoltarMenu.setText("Voltar");
+        btnVoltarMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarMenuActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,7 +188,7 @@ public class TelaVenda extends javax.swing.JFrame {
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnVoltarMenu)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(infoTotal)
@@ -220,7 +226,7 @@ public class TelaVenda extends javax.swing.JFrame {
                         .addComponent(infoTotal))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(jButton1)))
+                        .addComponent(btnVoltarMenu)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -235,6 +241,13 @@ public class TelaVenda extends javax.swing.JFrame {
         VendaProdutoConsultar vendaProdutoConsultar = new VendaProdutoConsultar(itensNFVenda);
         vendaProdutoConsultar.setVisible(true);
     }//GEN-LAST:event_btnBuscarProdutoActionPerformed
+
+    private void btnVoltarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarMenuActionPerformed
+        // TODO add your handling code here:
+        TelaMenu telaMenu = new TelaMenu();
+        telaMenu.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnVoltarMenuActionPerformed
 
     private String formatarValor(Double valor) {
         NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
@@ -279,9 +292,9 @@ public class TelaVenda extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarProduto;
+    private javax.swing.JButton btnVoltarMenu;
     private javax.swing.JLabel infoData;
     private javax.swing.JLabel infoTotal;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

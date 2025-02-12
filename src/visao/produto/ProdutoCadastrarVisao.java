@@ -4,6 +4,7 @@ import controller.ProdutoController;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import model.Produto;
+import visao.usuario.TelaMenu;
 
 /**
  *
@@ -174,7 +175,9 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        setVisible(false);
+        this.setVisible(false);
+        TelaMenu telaMenu = new TelaMenu();
+        telaMenu.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
