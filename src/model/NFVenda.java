@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -11,6 +12,7 @@ public class NFVenda {
     private Date dataEmissao;
     private double valor;
     private String cpfCliente;
+    private List<ItemNFVenda> itemsNFVenda;
 
     public int getCodigo() {
         return codigo;
@@ -52,5 +54,13 @@ public class NFVenda {
                 ", valor=" + valor +
                 ", cpfCliente='" + cpfCliente + "'" +
                 '}';
+    }
+
+    public List<ItemNFVenda> getItemsNFVenda() {
+        return itemsNFVenda;
+    }
+
+    public void setItemsNFVenda(List<ItemNFVenda> itemsNFVenda) {
+        this.itemsNFVenda = itemsNFVenda;
     }
 }
