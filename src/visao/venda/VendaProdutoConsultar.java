@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import model.ItemNFVenda;
 import model.Produto;
+import visao.usuario.TelaMenu;
 
 /**
  *
@@ -18,8 +19,14 @@ import model.Produto;
 public class VendaProdutoConsultar extends javax.swing.JFrame {
 
     private List<ItemNFVenda> itensNFVenda;
+    private TelaVenda telaVenda;
 
     public VendaProdutoConsultar() {
+        initComponents();
+        selecionarQuantidade.setValue(1);
+    }
+
+    public VendaProdutoConsultar(TelaVenda telaVenda) {
         initComponents();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -27,9 +34,11 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
         }
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
+        this.telaVenda = telaVenda;
+        selecionarQuantidade.setValue(1);
     }
 
-    public VendaProdutoConsultar(List<ItemNFVenda> itensNFVenda) {
+    public VendaProdutoConsultar(TelaVenda telaVenda, List<ItemNFVenda> itensNFVenda) {
         initComponents();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -38,6 +47,8 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
         this.itensNFVenda = itensNFVenda;
+        this.telaVenda = telaVenda;
+        selecionarQuantidade.setValue(1);
     }
 
     @SuppressWarnings("unchecked")
@@ -51,6 +62,9 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableProdutoLista = new javax.swing.JTable();
+        btnVoltarVenda = new javax.swing.JButton();
+        selecionarQuantidade = new javax.swing.JSpinner();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -111,6 +125,22 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableProdutoLista);
 
+        btnVoltarVenda.setText("Voltar");
+        btnVoltarVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarVendaActionPerformed(evt);
+            }
+        });
+
+        selecionarQuantidade.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                selecionarQuantidadeStateChanged(evt);
+            }
+        });
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Quantidade:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,18 +154,24 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtProdutoCodigo))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtProdutoNome, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtProdutoNome, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(selecionarQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnVoltarVenda)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtProdutoCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -144,8 +180,17 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
                     .addComponent(txtProdutoNome)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnVoltarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(selecionarQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(7, 7, 7)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -207,8 +252,7 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
             itemNFVenda.setValor_total(produto.getValor() * itemNFVenda.getQuantidade());
             itemNFVenda.setProduto(produto);
             itensNFVenda.add(itemNFVenda);
-            TelaVenda telaVenda = new TelaVenda(itensNFVenda);
-            telaVenda.setVisible(true);
+            this.telaVenda.setItensNFVenda(itensNFVenda);
             this.setVisible(false);
         } catch (Exception e) {
             System.out.println(e);
@@ -223,7 +267,6 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
     private void txtProdutoCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdutoCodigoKeyPressed
         // TODO add your handling code here:
         int key = evt.getKeyCode();
-        System.out.println(key);
         if (key == KeyEvent.VK_ENTER) {
             try {
                 if (txtProdutoCodigo.getText().length() == 0 && txtProdutoNome.getText().length() == 0) {
@@ -288,6 +331,25 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtProdutoNomeKeyPressed
 
+    private void btnVoltarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarVendaActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_btnVoltarVendaActionPerformed
+
+    private void selecionarQuantidadeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_selecionarQuantidadeStateChanged
+        // TODO add your handling code here:
+        try {
+            int quantidadeVoltar = Integer.parseInt(selecionarQuantidade.getPreviousValue().toString());
+            int quantidade = Integer.parseInt(selecionarQuantidade.getValue().toString());
+            if (quantidadeVoltar < 1 || quantidade < 1) {
+                selecionarQuantidade.setValue(1);
+            }
+        } catch (Exception e) {
+            selecionarQuantidade.setValue(1);
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_selecionarQuantidadeStateChanged
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -297,10 +359,13 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnVoltarVenda;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner selecionarQuantidade;
     private javax.swing.JTable tableProdutoLista;
     private javax.swing.JTextField txtProdutoCodigo;
     private javax.swing.JTextField txtProdutoNome;

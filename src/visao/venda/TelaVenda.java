@@ -5,20 +5,21 @@
  */
 package visao.venda;
 
+import controller.ProdutoController;
+import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ItemNFVenda;
 import model.NFVenda;
+import model.Produto;
 import visao.usuario.TelaMenu;
 
 /**
@@ -37,8 +38,7 @@ public class TelaVenda extends javax.swing.JFrame {
         setTitle("Lanchonete Ota's - Tela Venda");
         setLocationRelativeTo(null);
         setLocationRelativeTo(null);
-        preencherTabela();
-        atualizarData();
+        this.atualizarTela();
     }
 
     public TelaVenda(List<ItemNFVenda> itensNFVenda) {
@@ -46,6 +46,10 @@ public class TelaVenda extends javax.swing.JFrame {
         setTitle("Lanchonete Ota's - Venda");
         setLocationRelativeTo(null);
         this.itensNFVenda = itensNFVenda;
+        this.atualizarTela();
+    }
+
+    private void atualizarTela() {
         preencherTabela();
         atualizarData();
     }
@@ -54,7 +58,7 @@ public class TelaVenda extends javax.swing.JFrame {
         Double valor = 0.0;
         try {
             if (!itensNFVenda.isEmpty()) {
-                NFVenda nfVenda = new NFVenda();
+//                NFVenda nfVenda = new NFVenda();
                 DefaultTableModel model = (DefaultTableModel) tableItensNF.getModel();
                 model.setNumRows(0);
                 for (ItemNFVenda itemNFVenda : itensNFVenda) {
@@ -107,6 +111,7 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         infoTotal = new javax.swing.JLabel();
         btnVoltarMenu = new javax.swing.JButton();
+        btnEmitirNF = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,6 +124,12 @@ public class TelaVenda extends javax.swing.JFrame {
         infoData.setText("data");
 
         jLabel3.setText("Insira o codigo do Produto");
+
+        txtCodigoProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCodigoProdutoKeyPressed(evt);
+            }
+        });
 
         btnBuscarProduto.setText("...");
         btnBuscarProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -162,6 +173,13 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
 
+        btnEmitirNF.setText("Emitir NF");
+        btnEmitirNF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmitirNFActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -189,6 +207,8 @@ public class TelaVenda extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnVoltarMenu)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEmitirNF)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(infoTotal)
@@ -226,7 +246,9 @@ public class TelaVenda extends javax.swing.JFrame {
                         .addComponent(infoTotal))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(btnVoltarMenu)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnVoltarMenu)
+                            .addComponent(btnEmitirNF))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -238,22 +260,87 @@ public class TelaVenda extends javax.swing.JFrame {
         if (itensNFVenda == null) {
             itensNFVenda = new ArrayList<>();
         }
-        VendaProdutoConsultar vendaProdutoConsultar = new VendaProdutoConsultar(itensNFVenda);
+        VendaProdutoConsultar vendaProdutoConsultar = new VendaProdutoConsultar(this, itensNFVenda);
         vendaProdutoConsultar.setVisible(true);
     }//GEN-LAST:event_btnBuscarProdutoActionPerformed
 
     private void btnVoltarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarMenuActionPerformed
         // TODO add your handling code here:
         TelaMenu telaMenu = new TelaMenu();
-        telaMenu.setVisible(true);
         this.setVisible(false);
+        telaMenu.setVisible(true);
     }//GEN-LAST:event_btnVoltarMenuActionPerformed
+
+    private void btnEmitirNFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmitirNFActionPerformed
+        // TODO add your handling code here:
+        System.out.println("nota emitida");
+        if (txtVendaCpfCliente.getText().isEmpty()) {
+            // Cliente Padrão
+            txtVendaCpfCliente.setText("000.000.000-00");
+        }
+        String regexCPF = "^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$";
+        if (!Pattern.matches(regexCPF, txtVendaCpfCliente.getText())) {
+            JOptionPane.showMessageDialog(this, "Você não inseriu um CPF válido.");
+        }
+    }//GEN-LAST:event_btnEmitirNFActionPerformed
+
+    private void txtCodigoProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoProdutoKeyPressed
+        // TODO add your handling code here:
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER) {
+            if (txtCodigoProduto.getText().isEmpty()) {
+                return;
+            }
+            if (itensNFVenda == null) {
+                itensNFVenda = new ArrayList<>();
+            }
+            try {
+                int codigo = Integer.parseInt(txtCodigoProduto.getText());
+                ProdutoController produtoController = new ProdutoController();
+                List<Produto> produtos = produtoController.consultarPorCodigo(codigo);
+                if (produtos.isEmpty()) {
+                    JOptionPane.showConfirmDialog(this, "Produto não encontrado no sistema.");
+                    return;
+                }
+                Produto produto = produtos.get(0);
+                ItemNFVenda itemNFVenda = new ItemNFVenda();
+                itemNFVenda.setCodigo(1);
+                itemNFVenda.setCodigo_nf(0);
+                itemNFVenda.setCodigo_produto(produto.getCodigo());
+                itemNFVenda.setQuantidade(1);
+                itemNFVenda.setValor_uni(produto.getValor());
+                itemNFVenda.setValor_total(produto.getValor() * itemNFVenda.getQuantidade());
+                itemNFVenda.setProduto(produto);
+                itensNFVenda.add(itemNFVenda);
+                atualizarTela();
+                return;
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            try {
+                ProdutoController produtoController = new ProdutoController();
+                Produto produto = produtoController.consultarPorNome(txtCodigoProduto.getText()).get(0);
+                ItemNFVenda itemNFVenda = new ItemNFVenda();
+                itemNFVenda.setCodigo(1);
+                itemNFVenda.setCodigo_nf(0);
+                itemNFVenda.setCodigo_produto(produto.getCodigo());
+                itemNFVenda.setQuantidade(1);
+                itemNFVenda.setValor_uni(produto.getValor());
+                itemNFVenda.setValor_total(produto.getValor() * itemNFVenda.getQuantidade());
+                itemNFVenda.setProduto(produto);
+                itensNFVenda.add(itemNFVenda);
+                atualizarTela();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_txtCodigoProdutoKeyPressed
 
     private String formatarValor(Double valor) {
         NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         return formatoMoeda.format(valor);
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -292,6 +379,7 @@ public class TelaVenda extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarProduto;
+    private javax.swing.JButton btnEmitirNF;
     private javax.swing.JButton btnVoltarMenu;
     private javax.swing.JLabel infoData;
     private javax.swing.JLabel infoTotal;
@@ -306,4 +394,13 @@ public class TelaVenda extends javax.swing.JFrame {
     private javax.swing.JTextField txtCodigoProduto;
     private javax.swing.JTextField txtVendaCpfCliente;
     // End of variables declaration//GEN-END:variables
+
+    public List<ItemNFVenda> getItensNFVenda() {
+        return itensNFVenda;
+    }
+
+    public void setItensNFVenda(List<ItemNFVenda> itensNFVenda) {
+        this.itensNFVenda = itensNFVenda;
+        this.atualizarTela();
+    }
 }

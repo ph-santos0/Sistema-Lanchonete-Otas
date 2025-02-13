@@ -30,7 +30,7 @@ public class TelaMenu extends javax.swing.JFrame {
             System.out.println(e);
         }
         
-//        ImageIcon imagemFundo = new ImageIcon("public/logo.jpg");
+//        ImageIcon imagemFundo = new ImageIcon("public/logo.jpg");;
 //        JLabel labelFundo = new JLabel(imagemFundo);
 //        labelFundo.setBounds(0, 0, getWidth(), getHeight());
 //        setContentPane(labelFundo);

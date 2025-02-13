@@ -1,7 +1,5 @@
 package main;
 
-import visao.produto.ProdutoCadastrarVisao;
-import visao.produto.ProdutoConsultarVisao;
 import visao.usuario.TelaMenu;
 
 /**
