@@ -2,16 +2,16 @@ package model;
 
 /**
  *
- * @author wfabi0
+ * @author ph-santos
  */
-public class ItemNFVenda {
+public class ItemNFCompra {
+
     private int codigo;
     private int quantidade;
     private double valor_uni;
     private double valor_total;
     private int codigo_nf;
     private int codigo_produto;
-    private Produto produto;
 
     public int getCodigo() {
         return codigo;
@@ -60,24 +60,16 @@ public class ItemNFVenda {
     public void setCodigo_produto(int codigo_produto) {
         this.codigo_produto = codigo_produto;
     }
-    
+
     @Override
     public String toString() {
-        return "ItemNFVenda{" +
-                "codigo=" + codigo +
-                ", quantidade=" + quantidade +
-                ", valor_uni=" + valor_uni +
-                ", valor_total=" + valor_total +
-                ", codigo_nf=" + codigo_nf +
-                ", codigo_produto=" + codigo_produto +
-                '}';
-    }
-
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+        return "ItemNFCompra{"
+                + "codigo=" + codigo
+                + ", quantidade=" + quantidade
+                + ", valor_uni=" + valor_uni
+                + ", valor_total=" + valor_total
+                + ", codigo_nf=" + codigo_nf
+                + ", codigo_produto=" + codigo_produto
+                + '}';
     }
 }

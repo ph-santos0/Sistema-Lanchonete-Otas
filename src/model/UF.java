@@ -2,9 +2,10 @@ package model;
 
 /**
  *
- * @author wfabi
+ * @author wfabi0
  */
 public class UF {
+
     private int codigo;
     private String sigla;
 
@@ -23,12 +24,12 @@ public class UF {
     public void setSigla(String sigla) {
         this.sigla = sigla;
     }
-    
-@Override
+
+    @Override
     public String toString() {
-        return "UF{" +
-                "codigo=" + codigo +
-                ", sigla='" + sigla + '\'' +
-                '}';
+        return "UF{"
+                + "codigo=" + codigo
+                + ", sigla='" + sigla + '\''
+                + '}';
     }
 }

@@ -5,16 +5,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Produto;
 
 /**
  *
- * @author 0077110
+ * @author wfabi0
  */
 public class ProdutoDAO {
+
     public void inserir(Produto produto) {
         String sql = "INSERT INTO produto (codigo, nome, estoque, valor, imposto, unidade) VALUES (?, ?, ?, ?, ?, ?);";
         try {
@@ -31,6 +31,24 @@ public class ProdutoDAO {
             throw new RuntimeException("Erro ao inserir produto", e);
         }
     }
+
+    public void atualizar(Produto produto) {
+        String sql = "UPDATE produto SET nome = ?, estoque = ?, valor = ?, imposto = ?, unidade = ? WHERE codigo = ?;";
+        try {
+            Connection connection = ConexaoBanco.getConexao();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, produto.getNome());
+            statement.setInt(2, produto.getEstoque());
+            statement.setDouble(3, produto.getValor());
+            statement.setDouble(4, produto.getImposto());
+            statement.setString(5, produto.getUnidade());
+            statement.setInt(6, produto.getCodigo());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao inserir produto", e);
+        }
+    }
+
     public List<Produto> listarProdutos() {
         List<Produto> produtos = new ArrayList<>();
         String sql = "SELECT * FROM produto;";
@@ -39,14 +57,13 @@ public class ProdutoDAO {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Produto produto = new Produto(
-                    resultSet.getInt("codigo"),
-                    resultSet.getString("nome"),
-                    resultSet.getInt("estoque"),
-                    resultSet.getDouble("valor"),
-                    resultSet.getDouble("imposto"),
-                    resultSet.getString("unidade")
-                );
+                Produto produto = new Produto();
+                produto.setCodigo(resultSet.getInt("codigo"));
+                produto.setNome(resultSet.getString("nome"));
+                produto.setEstoque(resultSet.getInt("estoque"));
+                produto.setValor(resultSet.getDouble("valor"));
+                produto.setImposto(resultSet.getDouble("imposto"));
+                produto.setUnidade(resultSet.getString("unidade"));
                 produtos.add(produto);
             }
         } catch (SQLException e) {
@@ -54,35 +71,33 @@ public class ProdutoDAO {
         }
         return produtos;
     }
-    
+
     public List<Produto> procurarPorCodigo(int codigo) {
         List<Produto> produtos = new ArrayList<>();
-        String sql = "SELECT * FROM produto WHERE codigo = ? ;";
+        String sql = "SELECT * FROM produto WHERE codigo = ?;";
         try {
             Connection connection = ConexaoBanco.getConexao();
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, codigo);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Produto produto = new Produto(
-                    resultSet.getInt("codigo"),
-                    resultSet.getString("nome"),
-                    resultSet.getInt("estoque"),
-                    resultSet.getDouble("valor"),
-                    resultSet.getDouble("imposto"),
-                    resultSet.getString("unidade")
-                );
-                System.out.println(produto);
+                Produto produto = new Produto();
+                produto.setCodigo(resultSet.getInt("codigo"));
+                produto.setNome(resultSet.getString("nome"));
+                produto.setEstoque(resultSet.getInt("estoque"));
+                produto.setValor(resultSet.getDouble("valor"));
+                produto.setImposto(resultSet.getDouble("imposto"));
+                produto.setUnidade(resultSet.getString("unidade"));
                 produtos.add(produto);
             }
         } catch (SQLException e) {
             System.out.println(e);
-            throw new RuntimeException("Erro ao procurar produto pelo código", e);
+            throw new RuntimeException("Erro ao procurar produto pelo codigo", e);
         }
         return produtos;
     }
-    
-        public List<Produto> procurarPorNome(String nome) {
+
+    public List<Produto> procurarPorNome(String nome) {
         List<Produto> produtos = new ArrayList<>();
         String sql = "SELECT * FROM produto WHERE nome = ?;";
         try {
@@ -91,18 +106,18 @@ public class ProdutoDAO {
             statement.setString(1, nome);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Produto produto = new Produto(
-                    resultSet.getInt("codigo"),
-                    resultSet.getString("nome"),
-                    resultSet.getInt("estoque"),
-                    resultSet.getDouble("valor"),
-                    resultSet.getDouble("imposto"),
-                    resultSet.getString("unidade")
-                );
+                Produto produto = new Produto();
+                produto.setCodigo(resultSet.getInt("codigo"));
+                produto.setNome(resultSet.getString("nome"));
+                produto.setEstoque(resultSet.getInt("estoque"));
+                produto.setValor(resultSet.getDouble("valor"));
+                produto.setImposto(resultSet.getDouble("imposto"));
+                produto.setUnidade(resultSet.getString("unidade"));
                 produtos.add(produto);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao procurar produto pelo código", e);
+            System.out.println(e);
+            throw new RuntimeException("Erro ao procurar produto pelo nome", e);
         }
         return produtos;
     }

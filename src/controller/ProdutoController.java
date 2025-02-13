@@ -6,14 +6,25 @@ import model.Produto;
 
 /**
  *
- * @author 0077110
+ * @author wfabi0
  */
 public class ProdutoController {
+
     private final ProdutoDAO produtoDAO = new ProdutoDAO();
 
     public boolean inserir(Produto produto) {
         try {
             produtoDAO.inserir(produto);
+            return true;
+        } catch (RuntimeException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+
+    public boolean editar(Produto produto) {
+        try {
+            produtoDAO.atualizar(produto);
             return true;
         } catch (RuntimeException e) {
             System.out.println(e);
@@ -29,12 +40,13 @@ public class ProdutoController {
             return null;
         }
     }
-    
+
     public List<Produto> consultarPorCodigo(int codigo) {
         return produtoDAO.procurarPorCodigo(codigo);
     }
-    
+
     public List<Produto> consultarPorNome(String nome) {
         return produtoDAO.procurarPorNome(nome);
     }
+
 }

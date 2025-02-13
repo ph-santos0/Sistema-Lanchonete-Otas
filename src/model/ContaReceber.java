@@ -4,16 +4,16 @@ import java.sql.Date;
 
 /**
  *
- * @author wfabi0
+ * @author ph-santos
  */
-public class ContaPagar {
+public class ContaReceber {
     private int codigo;
-    private Date data_compra;
-    private Date data_paga;
+    private Date data_venda;
     private Date data_vencimento;
+    private Date data_paga;
     private double valor;
     private int codigo_nf;
-    private String cnpj_fonecedor;
+    private String cpf_cliente;
 
     public int getCodigo() {
         return codigo;
@@ -23,20 +23,12 @@ public class ContaPagar {
         this.codigo = codigo;
     }
 
-    public Date getData_compra() {
-        return data_compra;
+    public Date getData_venda() {
+        return data_venda;
     }
 
-    public void setData_compra(Date data_compra) {
-        this.data_compra = data_compra;
-    }
-
-    public Date getData_paga() {
-        return data_paga;
-    }
-
-    public void setData_paga(Date data_paga) {
-        this.data_paga = data_paga;
+    public void setData_venda(Date data_venda) {
+        this.data_venda = data_venda;
     }
 
     public Date getData_vencimento() {
@@ -45,6 +37,14 @@ public class ContaPagar {
 
     public void setData_vencimento(Date data_vencimento) {
         this.data_vencimento = data_vencimento;
+    }
+
+    public Date getData_paga() {
+        return data_paga;
+    }
+
+    public void setData_paga(Date data_paga) {
+        this.data_paga = data_paga;
     }
 
     public double getValor() {
@@ -63,24 +63,24 @@ public class ContaPagar {
         this.codigo_nf = codigo_nf;
     }
 
-    public String getCnpj_fonecedor() {
-        return cnpj_fonecedor;
+    public String getCpf_cliente() {
+        return cpf_cliente;
     }
 
-    public void setCnpj_fonecedor(String cnpj_fonecedor) {
-        this.cnpj_fonecedor = cnpj_fonecedor;
+    public void setCpf_cliente(String cpf_cliente) {
+        this.cpf_cliente = cpf_cliente;
     }
-    
+
     @Override
     public String toString() {
-        return "ContaPagar{" +
+        return "ContaReceber{" +
                 "codigo=" + codigo +
-                ", data_compra=" + data_compra +
-                ", data_paga=" + data_paga +
+                ", data_venda=" + data_venda +
                 ", data_vencimento=" + data_vencimento +
+                ", data_paga=" + data_paga +
                 ", valor=" + valor +
                 ", codigo_nf=" + codigo_nf +
-                ", cnpj_fonecedor='" + cnpj_fonecedor + '\'' +
+                ", cpf_cliente='" + cpf_cliente + '\'' +
                 '}';
     }
 }
