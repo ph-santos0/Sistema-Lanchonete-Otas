@@ -16,9 +16,10 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
 
     public ProdutoConsultarVisao() {
         initComponents();
-        try { 
-           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {}
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+        }
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
     }
@@ -161,7 +162,7 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tableProdutoListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProdutoListaMouseClicked
-
+        
         try {
             Integer codigo = (Integer) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 0);
             String nome = (String) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 1);
@@ -178,6 +179,7 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
             produto.setUnidade(unidade);
             ProdutoCadastrarVisao cadastrarVisao = new ProdutoCadastrarVisao(produto);
             cadastrarVisao.setVisible(true);
+            tableProdutoLista.clearSelection();
         } catch (Exception e) {
             System.out.println(e);
         }
