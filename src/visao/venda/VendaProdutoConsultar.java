@@ -1,16 +1,13 @@
 package visao.venda;
 
-import visao.produto.*;
 import controller.ProdutoController;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.ItemNFVenda;
 import model.Produto;
-import visao.usuario.TelaMenu;
 
 /**
  *
@@ -23,6 +20,13 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
 
     public VendaProdutoConsultar() {
         initComponents();
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        for (int i = 0; i < tableProdutoLista.getColumnCount(); i++) {
+            tableProdutoLista.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         selecionarQuantidade.setValue(1);
     }
 
@@ -32,6 +36,13 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //        } catch (Exception e) {
 //        }
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        for (int i = 0; i < tableProdutoLista.getColumnCount(); i++) {
+            tableProdutoLista.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
         this.telaVenda = telaVenda;
@@ -44,6 +55,13 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //        } catch (Exception e) {
 //        }
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        for (int i = 0; i < tableProdutoLista.getColumnCount(); i++) {
+            tableProdutoLista.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
         this.itensNFVenda = itensNFVenda;
@@ -264,6 +282,7 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
             itensNFVenda.add(itemNFVenda);
             this.telaVenda.setItensNFVenda(itensNFVenda);
             this.setVisible(false);
+            System.out.println("Clicou");
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -310,7 +329,6 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
     private void txtProdutoNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdutoNomeKeyPressed
         // TODO add your handling code here:
         int key = evt.getKeyCode();
-        System.out.println(key);
         if (key == KeyEvent.VK_ENTER) {
             try {
                 if (txtProdutoCodigo.getText().length() == 0 && txtProdutoNome.getText().length() == 0) {

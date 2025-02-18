@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import model.Funcionario;
 import session.SessaoUsuario;
+import visao.cadastrarnf.NFCadastrarVisao;
 import visao.produto.ProdutoCadastrarVisao;
 import visao.produto.ProdutoConsultarVisao;
 import visao.venda.TelaVenda;
@@ -207,8 +208,8 @@ public class TelaMenu extends javax.swing.JFrame {
             return;
         }
         this.setVisible(false);
-//        NFCadastrarVisao nfCadastrarVisao = new NFCadastrarVisao();
-//        nfCadastrarVisao.setVisible(true);
+        NFCadastrarVisao nfCadastrarVisao = new NFCadastrarVisao();
+        nfCadastrarVisao.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btnMenuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuVendaActionPerformed

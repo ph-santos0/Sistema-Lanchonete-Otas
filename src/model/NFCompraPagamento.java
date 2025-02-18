@@ -7,7 +7,7 @@ package model;
 public class NFCompraPagamento {
     private int codigo;
     private int codigo_nf;
-    private int codigo_pagamento;
+    private String codigo_pagamento;
 
     public int getCodigo() {
         return codigo;
@@ -25,11 +25,11 @@ public class NFCompraPagamento {
         this.codigo_nf = codigo_nf;
     }
 
-    public int getCodigo_pagamento() {
+    public String getCodigo_pagamento() {
         return codigo_pagamento;
     }
 
-    public void setCodigo_pagamento(int codigo_pagamento) {
+    public void setCodigo_pagamento(String codigo_pagamento) {
         this.codigo_pagamento = codigo_pagamento;
     }
     

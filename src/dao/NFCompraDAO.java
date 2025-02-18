@@ -17,7 +17,7 @@ public class NFCompraDAO {
             Connection connection = ConexaoBanco.getConexao();
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, nfCompra.getCodigo());
-            statement.setString(2, nfCompra.getDataEmissao());
+            statement.setDate(2, nfCompra.getDataEmissao());
             statement.setDouble(3, nfCompra.getValor());
             statement.setString(4, nfCompra.getCNPJFornecedor());
             statement.executeUpdate();
@@ -36,7 +36,7 @@ public class NFCompraDAO {
             while (resultSet.next()) {
                 NFCompra nfCompra = new NFCompra();
                 nfCompra.setCodigo(resultSet.getInt("Codigo"));
-                nfCompra.setDataEmissao(resultSet.getString("Data_Emissao"));
+                nfCompra.setDataEmissao(resultSet.getDate("Data_Emissao"));
                 nfCompra.setValor(resultSet.getDouble("Valor"));
                 nfCompra.setCNPJFornecedor(resultSet.getString("CNPJ_Fornecedor"));
                 notasFiscais.add(nfCompra);

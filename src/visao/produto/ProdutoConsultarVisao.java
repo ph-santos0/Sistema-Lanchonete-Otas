@@ -4,6 +4,7 @@ import controller.ProdutoController;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.Funcionario;
 import model.Produto;
@@ -18,6 +19,13 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
 
     public ProdutoConsultarVisao() {
         initComponents();
+        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        for (int i = 0; i < tableProdutoLista.getColumnCount(); i++) {
+            tableProdutoLista.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        
 //        try {
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //        } catch (Exception e) {
@@ -74,6 +82,7 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
             }
         });
         tableProdutoLista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tableProdutoLista.setShowGrid(false);
         tableProdutoLista.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableProdutoListaMouseClicked(evt);
