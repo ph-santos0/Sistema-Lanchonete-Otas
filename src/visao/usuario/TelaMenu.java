@@ -5,9 +5,9 @@
  */
 package visao.usuario;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import model.Funcionario;
 import session.SessaoUsuario;
 import visao.produto.ProdutoCadastrarVisao;
@@ -30,11 +30,12 @@ public class TelaMenu extends javax.swing.JFrame {
 //            ex.printStackTrace();
 //        }
 
-//        ImageIcon imagemFundo = new ImageIcon("public/logo.jpg");;
-//        JLabel labelFundo = new JLabel(imagemFundo);
-//        labelFundo.setBounds(0, 0, getWidth(), getHeight());
-//        setContentPane(labelFundo);
-//        setLayout(null);
+        ImageIcon imagemFundo = new ImageIcon("public/logo3.png");
+        JLabel labelFundo = new JLabel(imagemFundo);
+        labelFundo.setBounds(0, 0, getWidth(), getHeight());
+        setContentPane(labelFundo);
+        setLayout(null);
+
         initComponents();
         setTitle("Lanchonete Ota's - Menu");
         setLocationRelativeTo(null);
@@ -200,6 +201,14 @@ public class TelaMenu extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        Funcionario funcionario = (Funcionario) SessaoUsuario.getAtributo("session");
+        if (funcionario == null || !funcionario.getCargo().equals("admin")) {
+            JOptionPane.showMessageDialog(this, "Você não pode acessar essa função.");
+            return;
+        }
+        this.setVisible(false);
+//        NFCadastrarVisao nfCadastrarVisao = new NFCadastrarVisao();
+//        nfCadastrarVisao.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btnMenuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuVendaActionPerformed

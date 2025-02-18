@@ -1,11 +1,9 @@
 package visao.usuario;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import controller.FuncionarioController;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import model.Funcionario;
 import session.SessaoUsuario;
 
