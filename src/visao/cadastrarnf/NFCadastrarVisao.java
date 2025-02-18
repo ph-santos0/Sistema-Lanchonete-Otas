@@ -8,6 +8,8 @@ import controller.FormaPagamentoController;
 import controller.ItemNFCompraController;
 import controller.NFCompraController;
 import controller.NFCompraPagamentoController;
+import controller.ProdutoController;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -25,6 +27,7 @@ import model.FormaPagamento;
 import model.ItemNFCompra;
 import model.NFCompra;
 import model.NFCompraPagamento;
+import model.Produto;
 import visao.usuario.TelaMenu;
 
 /**
@@ -411,6 +414,11 @@ public class NFCadastrarVisao extends javax.swing.JFrame {
                 txtCodigoProdutoActionPerformed(evt);
             }
         });
+        txtCodigoProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCodigoProdutoKeyPressed(evt);
+            }
+        });
 
         cbStatusAtual.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendente", "Finalizado", "Cancelado" }));
         cbStatusAtual.addActionListener(new java.awt.event.ActionListener() {
@@ -717,7 +725,7 @@ public class NFCadastrarVisao extends javax.swing.JFrame {
             }
             nfCompra.setCodigo(Integer.parseInt(txtCodigoNF.getText()));
             nfCompra.setValor(valorTotal);
-            
+
             System.out.println(nfCompra);
 
             nfCompraController.inserir(nfCompra);
@@ -754,6 +762,58 @@ public class NFCadastrarVisao extends javax.swing.JFrame {
     private void txtDataEmissaoInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtDataEmissaoInputMethodTextChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDataEmissaoInputMethodTextChanged
+
+    private void txtCodigoProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoProdutoKeyPressed
+        // TODO add your handling code here:
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER) {
+            if (txtCodigoProduto.getText().isEmpty()) {
+                return;
+            }
+            if (itensNFCompra == null) {
+                itensNFCompra = new ArrayList<>();
+            }
+            try {
+                int codigo = Integer.parseInt(txtCodigoProduto.getText());
+                ProdutoController produtoController = new ProdutoController();
+                List<Produto> produtos = produtoController.consultarPorCodigo(codigo);
+                if (produtos.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Produto não encontrado no sistema.");
+                    return;
+                }
+                Produto produto = produtos.get(0);
+                ItemNFCompra itemNFCompra = new ItemNFCompra();
+                itemNFCompra.setCodigo(1);
+                itemNFCompra.setCodigo_nf(0);
+                itemNFCompra.setCodigo_produto(produto.getCodigo());
+                itemNFCompra.setQuantidade(1);
+                itemNFCompra.setValor_uni(produto.getValor());
+                itemNFCompra.setValor_total(produto.getValor() * itemNFCompra.getQuantidade());
+                itemNFCompra.setProduto(produto);
+                itensNFCompra.add(itemNFCompra);
+                atualizarTela();
+                return;
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            try {
+                ProdutoController produtoController = new ProdutoController();
+                Produto produto = produtoController.consultarPorNome(txtCodigoProduto.getText()).get(0);
+                ItemNFCompra itemNFCompra = new ItemNFCompra();
+                itemNFCompra.setCodigo(1);
+                itemNFCompra.setCodigo_nf(0);
+                itemNFCompra.setCodigo_produto(produto.getCodigo());
+                itemNFCompra.setQuantidade(1);
+                itemNFCompra.setValor_uni(produto.getValor());
+                itemNFCompra.setValor_total(produto.getValor() * itemNFCompra.getQuantidade());
+                itemNFCompra.setProduto(produto);
+                itensNFCompra.add(itemNFCompra);
+                atualizarTela();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_txtCodigoProdutoKeyPressed
 
     /**
      * @param args the command line arguments

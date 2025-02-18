@@ -139,8 +139,8 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtVendaCpfCliente = new javax.swing.JTextField();
         infoData = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         txtCodigoProduto = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         btnBuscarProduto = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableItensNF = new javax.swing.JTable();
@@ -162,13 +162,13 @@ public class TelaVenda extends javax.swing.JFrame {
 
         infoData.setText("data");
 
-        jLabel3.setText("Insira o codigo do Produto");
-
         txtCodigoProduto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCodigoProdutoKeyPressed(evt);
             }
         });
+
+        jLabel3.setText("Insira o codigo do Produto");
 
         btnBuscarProduto.setText("...");
         btnBuscarProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -421,7 +421,7 @@ public class TelaVenda extends javax.swing.JFrame {
                 ProdutoController produtoController = new ProdutoController();
                 List<Produto> produtos = produtoController.consultarPorCodigo(codigo);
                 if (produtos.isEmpty()) {
-                    JOptionPane.showConfirmDialog(this, "Produto não encontrado no sistema.");
+                    JOptionPane.showMessageDialog(this, "Produto não encontrado no sistema.");
                     return;
                 }
                 Produto produto = produtos.get(0);

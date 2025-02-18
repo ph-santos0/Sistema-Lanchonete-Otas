@@ -50,4 +50,9 @@ public class NFCompra {
                 + ", CNPJFornecedor='" + CNPJFornecedor + '\''
                 + '}';
     }
+
+    public Object[] getDadosModel() {
+        Object[] retorno = {getCodigo(), getDataEmissao(), getValor(), getCNPJFornecedor()};
+        return retorno;
+    }
 }

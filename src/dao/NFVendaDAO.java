@@ -2,6 +2,7 @@ package dao;
 
 import database.ConexaoBanco;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,4 +75,31 @@ public class NFVendaDAO {
         }
         return nfVendas;
     }
+    
+    public List<NFVenda> procurarNFVendaPorData(Date dataApartir, Date dataAte) {
+        if (dataAte == null) {
+            dataAte = new Date(System.currentTimeMillis());
+        }
+        List<NFVenda> notasFiscais = new ArrayList<>();
+        String sql = "SELECT * FROM NF_Venda WHERE Data_Emissao BETWEEN ? AND ?;";
+        try {
+            Connection connection = ConexaoBanco.getConexao();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDate(1, dataApartir);
+            statement.setDate(2, dataAte);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                NFVenda nfVenda = new NFVenda();
+                nfVenda.setCodigo(resultSet.getInt("Codigo"));
+                nfVenda.setDataEmissao(resultSet.getDate("Data_Emissao"));
+                nfVenda.setValor(resultSet.getDouble("Valor"));
+                nfVenda.setCpfCliente(resultSet.getString("cpf_cliente"));
+                notasFiscais.add(nfVenda);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar notas fiscais de venda", e);
+        }
+        return notasFiscais;
+    }
+    
 }

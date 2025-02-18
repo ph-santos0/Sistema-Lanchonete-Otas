@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import model.Funcionario;
 import session.SessaoUsuario;
 import visao.cadastrarnf.NFCadastrarVisao;
+import visao.consultarnf.NFConsultarVisao;
 import visao.produto.ProdutoCadastrarVisao;
 import visao.produto.ProdutoConsultarVisao;
 import visao.venda.TelaVenda;
@@ -36,7 +37,7 @@ public class TelaMenu extends javax.swing.JFrame {
         labelFundo.setBounds(0, 0, getWidth(), getHeight());
         setContentPane(labelFundo);
         setLayout(null);
-
+        
         initComponents();
         setTitle("Lanchonete Ota's - Menu");
         setLocationRelativeTo(null);
@@ -191,6 +192,9 @@ public class TelaMenu extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        NFConsultarVisao nfConsultarVisao = new NFConsultarVisao();
+        nfConsultarVisao.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnConsultarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarProdutoActionPerformed
