@@ -28,10 +28,10 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
 
     public VendaProdutoConsultar(TelaVenda telaVenda) {
         initComponents();
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-        }
+//        try {
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//        } catch (Exception e) {
+//        }
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
         this.telaVenda = telaVenda;
@@ -40,10 +40,10 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
 
     public VendaProdutoConsultar(TelaVenda telaVenda, List<ItemNFVenda> itensNFVenda) {
         initComponents();
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-        }
+//        try {
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//        } catch (Exception e) {
+//        }
         setTitle("Lanchonete Ota's - Consulta de Produto");
         setLocationRelativeTo(null);
         this.itensNFVenda = itensNFVenda;
