@@ -12,12 +12,12 @@ import session.SessaoUsuario;
 public class TelaLogin extends javax.swing.JFrame {
 
     public TelaLogin() {
+//        try {
+//            UIManager.setLookAndFeel(new FlatMacLightLaf());
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
         initComponents();
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
         setTitle("Lanchonete Ota's - Login");
         setLocationRelativeTo(null);
     }
