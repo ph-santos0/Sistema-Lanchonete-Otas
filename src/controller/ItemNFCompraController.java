@@ -12,14 +12,13 @@ public class ItemNFCompraController {
 
     private final ItemNFCompraDAO itemNFCompraDAO = new ItemNFCompraDAO();
 
-    public boolean inserir(ItemNFCompra itemNFCompra) {
+    public ItemNFCompra inserir(ItemNFCompra itemNFCompra) {
         try {
-            itemNFCompraDAO.inserir(itemNFCompra);
-            return true;
+            return itemNFCompraDAO.newInserir(itemNFCompra);
         } catch (RuntimeException e) {
             System.out.println(e);
+            return null;
         }
-        return false;
     }
 
     public List<ItemNFCompra> listarItensNFCompra() {

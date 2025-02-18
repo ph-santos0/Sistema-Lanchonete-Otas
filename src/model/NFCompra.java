@@ -1,9 +1,11 @@
 package model;
 
+import java.sql.Date;
+
 public class NFCompra {
 
     private int Codigo;
-    private String DataEmissao;
+    private Date DataEmissao;
     private double Valor;
     private String CNPJFornecedor;
 
@@ -15,11 +17,11 @@ public class NFCompra {
         this.Codigo = Codigo;
     }
 
-    public String getDataEmissao() {
+    public Date getDataEmissao() {
         return DataEmissao;
     }
 
-    public void setDataEmissao(String DataEmissao) {
+    public void setDataEmissao(Date DataEmissao) {
         this.DataEmissao = DataEmissao;
     }
 
@@ -47,5 +49,10 @@ public class NFCompra {
                 + ", Valor=" + Valor
                 + ", CNPJFornecedor='" + CNPJFornecedor + '\''
                 + '}';
+    }
+
+    public Object[] getDadosModel() {
+        Object[] retorno = {getCodigo(), getDataEmissao(), getValor(), getCNPJFornecedor()};
+        return retorno;
     }
 }

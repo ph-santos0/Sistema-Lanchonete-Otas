@@ -64,4 +64,9 @@ public class NFVenda {
                 + ", cpfCliente='" + cpfCliente + "'"
                 + '}';
     }
+
+    public Object[] getDadosModel() {
+        Object[] retorno = {getCodigo(), getDataEmissao(), getValor(), getCpfCliente()};
+        return retorno;
+    }
 }

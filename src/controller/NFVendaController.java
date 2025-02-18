@@ -1,6 +1,7 @@
 package controller;
 
 import dao.NFVendaDAO;
+import java.sql.Date;
 import java.util.List;
 import model.NFVenda;
 
@@ -23,5 +24,14 @@ public class NFVendaController {
 
     public List<NFVenda> listarNFVendas() {
         return nfVendaDAO.listarNFVendas();
+    }
+
+    public List<NFVenda> procurarNFVendaPorData(Date dataApartir, Date dataAte) {
+        try {
+            return nfVendaDAO.procurarNFVendaPorData(dataApartir, dataAte);
+        } catch (RuntimeException e) {
+            System.out.println(e);
+            return null;
+        }
     }
 }

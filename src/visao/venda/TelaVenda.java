@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.ItemNFVenda;
 import model.NFVenda;
@@ -43,6 +44,13 @@ public class TelaVenda extends javax.swing.JFrame {
      */
     public TelaVenda() {
         initComponents();
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        for (int i = 0; i < tableItensNF.getColumnCount(); i++) {
+            tableItensNF.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         setTitle("Lanchonete Ota's - Tela Venda");
         setLocationRelativeTo(null);
         this.atualizarTela();
@@ -50,6 +58,13 @@ public class TelaVenda extends javax.swing.JFrame {
 
     public TelaVenda(List<ItemNFVenda> itensNFVenda) {
         initComponents();
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        for (int i = 0; i < tableItensNF.getColumnCount(); i++) {
+            tableItensNF.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         setTitle("Lanchonete Ota's - Venda");
         setLocationRelativeTo(null);
         this.itensNFVenda = itensNFVenda;
@@ -69,6 +84,7 @@ public class TelaVenda extends javax.swing.JFrame {
         txtVendaCpfCliente.setText("");
         valorTotal = 0.0;
         infoTotal.setText(formatarValor(valorTotal));
+        itensNFVenda.clear();
     }
 
     private void preencherTabela() {
@@ -123,8 +139,8 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtVendaCpfCliente = new javax.swing.JTextField();
         infoData = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         txtCodigoProduto = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         btnBuscarProduto = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableItensNF = new javax.swing.JTable();
@@ -146,13 +162,13 @@ public class TelaVenda extends javax.swing.JFrame {
 
         infoData.setText("data");
 
-        jLabel3.setText("Insira o codigo do Produto");
-
         txtCodigoProduto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCodigoProdutoKeyPressed(evt);
             }
         });
+
+        jLabel3.setText("Insira o codigo do Produto");
 
         btnBuscarProduto.setText("...");
         btnBuscarProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -312,76 +328,82 @@ public class TelaVenda extends javax.swing.JFrame {
 
     private void btnEmitirNFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmitirNFActionPerformed
         // TODO add your handling code here:
-        if (txtVendaCpfCliente.getText().isEmpty()) {
-            // Cliente Padrão
-            txtVendaCpfCliente.setText("000.000.000-00");
-        }
-        String cpfFormatado = txtVendaCpfCliente.getText().replaceAll("\\D", "");
-        String regexCPF = "^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$";
-        if (!Pattern.matches(regexCPF, txtVendaCpfCliente.getText())) {
-            JOptionPane.showMessageDialog(this, "Você não inseriu um CPF válido.");
-            return;
-        }
-        DefaultTableModel model = (DefaultTableModel) tableItensNF.getModel();
-        if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Você não inseriu nenhum item na sua nota fiscal.");
-            return;
-        }
-        String pagamento = (String) cbMetodoPagamento.getSelectedItem();
-        FormaPagamentoController formaPagamentoController = new FormaPagamentoController();
-        FormaPagamento formaPagamento = null;
-        switch (pagamento) {
-            case "DIN": {
-                formaPagamento = formaPagamentoController.procurarPorNome("Dinheiro");
-                break;
+
+        try {
+            if (txtVendaCpfCliente.getText().isEmpty()) {
+                // Cliente Padrão
+                txtVendaCpfCliente.setText("000.000.000-00");
             }
-            case "CC": {
-                formaPagamento = formaPagamentoController.procurarPorNome("Cartão de Crédito");
-                break;
+            String cpfFormatado = txtVendaCpfCliente.getText().replaceAll("\\D", "");
+            String regexCPF = "^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$";
+            if (!Pattern.matches(regexCPF, txtVendaCpfCliente.getText())) {
+                JOptionPane.showMessageDialog(this, "Você não inseriu um CPF válido.");
+                return;
             }
-            case "CD": {
-                formaPagamento = formaPagamentoController.procurarPorNome("Cartão de Débito");
-                break;
+            DefaultTableModel model = (DefaultTableModel) tableItensNF.getModel();
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "Você não inseriu nenhum item na sua nota fiscal.");
+                return;
             }
-            case "PIX": {
-                formaPagamento = formaPagamentoController.procurarPorNome("Pix");
-                break;
+            String pagamento = (String) cbMetodoPagamento.getSelectedItem();
+            FormaPagamentoController formaPagamentoController = new FormaPagamentoController();
+            FormaPagamento formaPagamento = null;
+            switch (pagamento) {
+                case "DIN": {
+                    formaPagamento = formaPagamentoController.procurarPorNome("Dinheiro");
+                    break;
+                }
+                case "CC": {
+                    formaPagamento = formaPagamentoController.procurarPorNome("Cartão de Crédito");
+                    break;
+                }
+                case "CD": {
+                    formaPagamento = formaPagamentoController.procurarPorNome("Cartão de Débito");
+                    break;
+                }
+                case "PIX": {
+                    formaPagamento = formaPagamentoController.procurarPorNome("Pix");
+                    break;
+                }
             }
+            if (formaPagamento == null) {
+                JOptionPane.showMessageDialog(this, "Um erro ocorreu, tente novamente.");
+                return;
+            }
+
+            NFVendaController nfVendaController = new NFVendaController();
+            NFVenda nfVenda = new NFVenda();
+
+            NFVendaPagamentoController nfVendaPagamentoController = new NFVendaPagamentoController();
+            NFVendaPagamento nfVendaPagamento = new NFVendaPagamento();
+
+            ItemNFVendaController itemNFVendaController = new ItemNFVendaController();
+
+            nfVenda.setCpfCliente(cpfFormatado);
+            nfVenda.setItemsNFVenda(itensNFVenda);
+            nfVenda.setDataEmissao(new Date(System.currentTimeMillis()));
+            nfVenda.setValor(valorTotal);
+
+            nfVenda = nfVendaController.inserir(nfVenda);
+
+            nfVendaPagamento.setCodigo_nf(nfVenda.getCodigo());
+            nfVendaPagamento.setCodigo_pagamento(formaPagamento.getTipo());
+
+            nfVendaPagamento = nfVendaPagamentoController.inserir(nfVendaPagamento);
+
+            for (ItemNFVenda itemNFVenda : itensNFVenda) {
+                itemNFVenda.setCodigo_nf(nfVenda.getCodigo());
+                itemNFVenda = itemNFVendaController.inserir(itemNFVenda);
+            }
+
+            System.out.println(nfVenda);
+            System.out.println(nfVendaPagamento);
+            JOptionPane.showMessageDialog(this, "Imprimindo comprovante...");
+            limparTela();
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(this, "Um erro ocorreu ao emitir a nota fisca.");
         }
-        if (formaPagamento == null) {
-            JOptionPane.showMessageDialog(this, "Um erro ocorreu, tente novamente.");
-            return;
-        }
-
-        NFVendaController nfVendaController = new NFVendaController();
-        NFVenda nfVenda = new NFVenda();
-
-        NFVendaPagamentoController nfVendaPagamentoController = new NFVendaPagamentoController();
-        NFVendaPagamento nfVendaPagamento = new NFVendaPagamento();
-
-        ItemNFVendaController itemNFVendaController = new ItemNFVendaController();
-
-        nfVenda.setCpfCliente(cpfFormatado);
-        nfVenda.setItemsNFVenda(itensNFVenda);
-        nfVenda.setDataEmissao(new Date(System.currentTimeMillis()));
-        nfVenda.setValor(valorTotal);
-
-        nfVenda = nfVendaController.inserir(nfVenda);
-
-        nfVendaPagamento.setCodigo_nf(nfVenda.getCodigo());
-        nfVendaPagamento.setCodigo_pagamento(formaPagamento.getTipo());
-
-        nfVendaPagamento = nfVendaPagamentoController.inserir(nfVendaPagamento);
-
-        for (ItemNFVenda itemNFVenda : itensNFVenda) {
-            itemNFVenda.setCodigo_nf(nfVenda.getCodigo());
-            itemNFVenda = itemNFVendaController.inserir(itemNFVenda);
-        }
-
-        System.out.println(nfVenda);
-        System.out.println(nfVendaPagamento);
-        JOptionPane.showMessageDialog(this, "Imprimindo comprovante...");
-        limparTela();
     }//GEN-LAST:event_btnEmitirNFActionPerformed
 
     private void txtCodigoProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoProdutoKeyPressed
@@ -399,7 +421,7 @@ public class TelaVenda extends javax.swing.JFrame {
                 ProdutoController produtoController = new ProdutoController();
                 List<Produto> produtos = produtoController.consultarPorCodigo(codigo);
                 if (produtos.isEmpty()) {
-                    JOptionPane.showConfirmDialog(this, "Produto não encontrado no sistema.");
+                    JOptionPane.showMessageDialog(this, "Produto não encontrado no sistema.");
                     return;
                 }
                 Produto produto = produtos.get(0);

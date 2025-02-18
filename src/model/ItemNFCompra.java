@@ -12,6 +12,7 @@ public class ItemNFCompra {
     private double valor_total;
     private int codigo_nf;
     private int codigo_produto;
+    private Produto produto;
 
     public int getCodigo() {
         return codigo;
@@ -71,5 +72,13 @@ public class ItemNFCompra {
                 + ", codigo_nf=" + codigo_nf
                 + ", codigo_produto=" + codigo_produto
                 + '}';
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 }

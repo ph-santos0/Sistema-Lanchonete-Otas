@@ -153,3 +153,7 @@ VALUES (5, 5, 'Cartão de Débito');
 -- Adicionado cliente fictício
 INSERT INTO cliente (CPF, Nome, Tel_Fixo, Tel_Celular, Cidade, Bairro, Numero, Rua, CEP, Sigla_UF) VALUES 
 ('00000000000', 'Cliente Fictício', '0000-0000', '00000-0000', 'Cidade Imaginária', 'Bairro Fantasma', 0, 'Rua Fictícia', '00000-000', 'MG');
+
+-- Adicionando fornecedor ficticio
+INSERT INTO Fornecedor (CNPJ, Nome, Tel_Fixo, Tel_Celular, Cidade, Bairro, Numero, Rua, CEP, Sigla_UF)
+VALUES ('00000000000000', 'Fornecedor Padrão', '0000000000', '0000000000', 'Cidade Exemplo', 'Bairro Exemplo', 0, 'Rua Exemplo', '00000-000', 'MG');
