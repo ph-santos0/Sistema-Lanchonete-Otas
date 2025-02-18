@@ -93,7 +93,7 @@ public class NFConsultarVisao extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableConsulta);
 
-        jLabel2.setText("Apartir de: ");
+        jLabel2.setText("A partir de: ");
 
         btnVoltar.setText("Voltar");
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
