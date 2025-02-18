@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.ItemNFCompra;
@@ -29,6 +30,32 @@ public class ItemNFCompraDAO {
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir item na nota fiscal de compra", e);
+        }
+    }
+    
+    public ItemNFCompra newInserir(ItemNFCompra itemNFCompra) {
+        String sql = "INSERT INTO item_nf_compra (quantidade, valor_uni, valor_total, codigo_nf, codigo_produto) VALUES (?, ?, ?, ?, ?);";
+        try {
+            Connection connection = ConexaoBanco.getConexao();
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, itemNFCompra.getQuantidade());
+            statement.setDouble(2, itemNFCompra.getValor_uni());
+            statement.setDouble(3, itemNFCompra.getValor_total());
+            statement.setInt(4, itemNFCompra.getCodigo_nf());
+            statement.setInt(5, itemNFCompra.getCodigo_produto());
+            int linhasAfetadas = statement.executeUpdate();
+            if (linhasAfetadas > 0) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int idGerado = generatedKeys.getInt(1);
+                        itemNFCompra.setCodigo(idGerado);
+                    }
+                }
+            }
+            return itemNFCompra;
+        } catch (SQLException e) {
+            System.out.println("Erro ao inserir itens da nota fiscal");
+            return null;
         }
     }
 

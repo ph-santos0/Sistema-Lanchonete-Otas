@@ -2,6 +2,7 @@ package dao;
 
 import database.ConexaoBanco;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ public class NFCompraDAO {
             Connection connection = ConexaoBanco.getConexao();
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, nfCompra.getCodigo());
-            statement.setString(2, nfCompra.getDataEmissao());
+            statement.setDate(2, nfCompra.getDataEmissao());
             statement.setDouble(3, nfCompra.getValor());
             statement.setString(4, nfCompra.getCNPJFornecedor());
             statement.executeUpdate();
@@ -36,7 +37,33 @@ public class NFCompraDAO {
             while (resultSet.next()) {
                 NFCompra nfCompra = new NFCompra();
                 nfCompra.setCodigo(resultSet.getInt("Codigo"));
-                nfCompra.setDataEmissao(resultSet.getString("Data_Emissao"));
+                nfCompra.setDataEmissao(resultSet.getDate("Data_Emissao"));
+                nfCompra.setValor(resultSet.getDouble("Valor"));
+                nfCompra.setCNPJFornecedor(resultSet.getString("CNPJ_Fornecedor"));
+                notasFiscais.add(nfCompra);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar notas fiscais de compra", e);
+        }
+        return notasFiscais;
+    }
+
+    public List<NFCompra> procurarNFCompraPorData(Date dataApartir, Date dataAte) {
+        if (dataAte == null) {
+            dataAte = new Date(System.currentTimeMillis());
+        }
+        List<NFCompra> notasFiscais = new ArrayList<>();
+        String sql = "SELECT * FROM NF_Compra WHERE Data_Emissao BETWEEN ? AND ?;";
+        try {
+            Connection connection = ConexaoBanco.getConexao();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDate(1, dataApartir);
+            statement.setDate(2, dataAte);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                NFCompra nfCompra = new NFCompra();
+                nfCompra.setCodigo(resultSet.getInt("Codigo"));
+                nfCompra.setDataEmissao(resultSet.getDate("Data_Emissao"));
                 nfCompra.setValor(resultSet.getDouble("Valor"));
                 nfCompra.setCNPJFornecedor(resultSet.getString("CNPJ_Fornecedor"));
                 notasFiscais.add(nfCompra);
