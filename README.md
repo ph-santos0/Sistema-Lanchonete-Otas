@@ -1,4 +1,4 @@
-# 🍔 Sistema Lanchonete Ota's 
+# Sistema Lanchonete Ota's 🍔
 
 ## Descrição
 
