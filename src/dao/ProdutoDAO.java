@@ -99,11 +99,11 @@ public class ProdutoDAO {
 
     public List<Produto> procurarPorNome(String nome) {
         List<Produto> produtos = new ArrayList<>();
-        String sql = "SELECT * FROM produto WHERE nome = ?;";
+        String sql = "SELECT * FROM produto WHERE LOWER(nome) LIKE LOWER(?);";
         try {
             Connection connection = ConexaoBanco.getConexao();
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, nome);
+            statement.setString(1, "%" + nome + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Produto produto = new Produto();

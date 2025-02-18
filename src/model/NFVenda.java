@@ -8,6 +8,7 @@ import java.util.List;
  * @author ph-santos
  */
 public class NFVenda {
+
     private int codigo;
     private Date dataEmissao;
     private double valor;
@@ -46,21 +47,21 @@ public class NFVenda {
         this.cpfCliente = cpfCliente;
     }
 
-    @Override
-    public String toString() {
-        return "NFVenda{" +
-                "codigo=" + codigo +
-                ", dataEmissao=" + dataEmissao +
-                ", valor=" + valor +
-                ", cpfCliente='" + cpfCliente + "'" +
-                '}';
-    }
-
     public List<ItemNFVenda> getItemsNFVenda() {
         return itemsNFVenda;
     }
 
     public void setItemsNFVenda(List<ItemNFVenda> itemsNFVenda) {
         this.itemsNFVenda = itemsNFVenda;
+    }
+
+    @Override
+    public String toString() {
+        return "NFVenda{"
+                + "codigo=" + codigo
+                + ", dataEmissao=" + dataEmissao
+                + ", valor=" + valor
+                + ", cpfCliente='" + cpfCliente + "'"
+                + '}';
     }
 }

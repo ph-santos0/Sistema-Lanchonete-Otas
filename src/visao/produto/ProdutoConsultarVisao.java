@@ -5,7 +5,9 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import model.Funcionario;
 import model.Produto;
+import session.SessaoUsuario;
 import visao.usuario.TelaMenu;
 
 /**
@@ -162,7 +164,12 @@ public class ProdutoConsultarVisao extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tableProdutoListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProdutoListaMouseClicked
-        
+
+        Funcionario funcionario = (Funcionario) SessaoUsuario.getAtributo("session");
+        if (funcionario == null || !funcionario.getCargo().equals("admin")) {
+            return;
+        }
+
         try {
             Integer codigo = (Integer) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 0);
             String nome = (String) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 1);
