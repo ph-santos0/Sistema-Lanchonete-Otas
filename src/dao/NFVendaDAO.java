@@ -31,6 +31,29 @@ public class NFVendaDAO {
         }
     }
 
+    public NFVenda newInserir(NFVenda nfVenda) {
+        String sql = "INSERT INTO nf_venda (data_emissao, valor, cpf_cliente) VALUES (?, ?, ?);";
+        try {
+            Connection connection = ConexaoBanco.getConexao();
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setDate(1, nfVenda.getDataEmissao());
+            statement.setDouble(2, nfVenda.getValor());
+            statement.setString(3, nfVenda.getCpfCliente());
+            int linhasAfetadas = statement.executeUpdate();
+            if (linhasAfetadas > 0) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int idGerado = generatedKeys.getInt(1);
+                        nfVenda.setCodigo(idGerado);
+                    }
+                }
+            }
+            return nfVenda;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<NFVenda> listarNFVendas() {
         List<NFVenda> nfVendas = new ArrayList<>();
         String sql = "SELECT * FROM nf_venda;";

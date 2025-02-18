@@ -3,7 +3,9 @@ package visao.produto;
 import controller.ProdutoController;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import model.Funcionario;
 import model.Produto;
+import session.SessaoUsuario;
 import visao.usuario.TelaMenu;
 
 /**
@@ -16,9 +18,10 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
 
     public ProdutoCadastrarVisao() {
         initComponents();
-        try { 
-           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {}
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+        }
         setTitle("Lanchonete Ota's - Cadastro de Produto");
         setLocationRelativeTo(null);
         this.produto = null;
@@ -26,9 +29,10 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
 
     public ProdutoCadastrarVisao(Produto produto) {
         initComponents();
-        try { 
-           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {}
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+        }
         setTitle("Lanchonete Ota's - Edição de Produto");
         setLocationRelativeTo(null);
         this.produto = produto;
@@ -61,7 +65,7 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
         txtProdutoImposto = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtProdutoUnidade = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         btnCadastrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,10 +88,10 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Unidade:");
 
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -132,7 +136,7 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
@@ -166,7 +170,7 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
                     .addComponent(txtProdutoUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -174,11 +178,17 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        if (btnCadastrar.getText() == "Editar") {
+            if (this.produto != null) {
+                this.setVisible(false);
+                return;
+            }
+        }
         this.setVisible(false);
         TelaMenu telaMenu = new TelaMenu();
         telaMenu.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         if (this.produto == null) {
@@ -190,28 +200,29 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
                         || txtProdutoImposto.getText().length() == 0
                         || txtProdutoUnidade.getText().length() == 0) {
                     JOptionPane.showMessageDialog(null, "Você precisa preencher todos os campos.");
-                    if (txtProdutoCodigo.getText().length() == 0
-                            || txtProdutoNome.getText().length() == 0
-                            || txtProdutoEstoque.getText().length() == 0
-                            || txtProdutoValor.getText().length() == 0
-                            || txtProdutoImposto.getText().length() == 0
-                            || txtProdutoUnidade.getText().length() == 0) {
-                        JOptionPane.showMessageDialog(this, "Você precisa preencher todos os campos.");
-                        return;
-                    }
-                    Produto produto = new Produto();
-                    produto.setCodigo(Integer.parseInt(txtProdutoCodigo.getText()));
-                    produto.setNome(txtProdutoNome.getText());
-                    produto.setEstoque(Integer.parseInt(txtProdutoEstoque.getText()));
-                    produto.setValor(Double.parseDouble(txtProdutoValor.getText().replaceAll(",", ".")));
-                    produto.setImposto(Double.parseDouble(txtProdutoImposto.getText()));
-                    produto.setUnidade(txtProdutoUnidade.getText());
-                    ProdutoController produtoController = new ProdutoController();
-                    produtoController.inserir(produto);
-                    limparCampo();
-                    JOptionPane.showMessageDialog(null, "Produto cadastrado:\n" + produto);
-                    JOptionPane.showMessageDialog(this, "Produto cadastrado:\n" + produto);
+                    return;
                 }
+                if (txtProdutoCodigo.getText().length() == 0
+                        || txtProdutoNome.getText().length() == 0
+                        || txtProdutoEstoque.getText().length() == 0
+                        || txtProdutoValor.getText().length() == 0
+                        || txtProdutoImposto.getText().length() == 0
+                        || txtProdutoUnidade.getText().length() == 0) {
+                    JOptionPane.showMessageDialog(this, "Você precisa preencher todos os campos.");
+                    return;
+                }
+                Produto produto = new Produto();
+                produto.setCodigo(Integer.parseInt(txtProdutoCodigo.getText()));
+                produto.setNome(txtProdutoNome.getText());
+                produto.setEstoque(Integer.parseInt(txtProdutoEstoque.getText()));
+                produto.setValor(Double.parseDouble(txtProdutoValor.getText().replaceAll(",", ".")));
+                produto.setImposto(Double.parseDouble(txtProdutoImposto.getText()));
+                produto.setUnidade(txtProdutoUnidade.getText());
+                ProdutoController produtoController = new ProdutoController();
+                produtoController.inserir(produto);
+                limparCampo();
+                JOptionPane.showMessageDialog(null, "Produto cadastrado:\n" + produto);
+                JOptionPane.showMessageDialog(this, "Produto cadastrado:\n" + produto);
             } catch (Exception e) {
                 System.out.println(e);
                 JOptionPane.showMessageDialog(this, "Erro ao cadastrar produto, tente novamente.");
@@ -225,26 +236,27 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
                         || txtProdutoImposto.getText().length() == 0
                         || txtProdutoUnidade.getText().length() == 0) {
                     JOptionPane.showMessageDialog(null, "Você precisa preencher todos os campos.");
-                    if (txtProdutoCodigo.getText().length() == 0
-                            || txtProdutoNome.getText().length() == 0
-                            || txtProdutoEstoque.getText().length() == 0
-                            || txtProdutoValor.getText().length() == 0
-                            || txtProdutoImposto.getText().length() == 0
-                            || txtProdutoUnidade.getText().length() == 0) {
-                        JOptionPane.showMessageDialog(this, "Você precisa preencher todos os campos.");
-                        return;
-                    }
-                    produto.setCodigo(Integer.parseInt(txtProdutoCodigo.getText()));
-                    produto.setNome(txtProdutoNome.getText());
-                    produto.setEstoque(Integer.parseInt(txtProdutoEstoque.getText()));
-                    produto.setValor(Double.parseDouble(txtProdutoValor.getText().replaceAll(",", ".")));
-                    produto.setImposto(Double.parseDouble(txtProdutoImposto.getText()));
-                    produto.setUnidade(txtProdutoUnidade.getText());
-                    ProdutoController produtoController = new ProdutoController();
-                    produtoController.editar(produto);
-                    limparCampo();
-                    JOptionPane.showMessageDialog(this, "Produto editado:\n" + produto);
+                    return;
                 }
+                if (txtProdutoCodigo.getText().length() == 0
+                        || txtProdutoNome.getText().length() == 0
+                        || txtProdutoEstoque.getText().length() == 0
+                        || txtProdutoValor.getText().length() == 0
+                        || txtProdutoImposto.getText().length() == 0
+                        || txtProdutoUnidade.getText().length() == 0) {
+                    JOptionPane.showMessageDialog(this, "Você precisa preencher todos os campos.");
+                    return;
+                }
+                produto.setCodigo(Integer.parseInt(txtProdutoCodigo.getText()));
+                produto.setNome(txtProdutoNome.getText());
+                produto.setEstoque(Integer.parseInt(txtProdutoEstoque.getText()));
+                produto.setValor(Double.parseDouble(txtProdutoValor.getText().replaceAll(",", ".")));
+                produto.setImposto(Double.parseDouble(txtProdutoImposto.getText()));
+                produto.setUnidade(txtProdutoUnidade.getText());
+                ProdutoController produtoController = new ProdutoController();
+                produtoController.editar(produto);
+                limparCampo();
+                JOptionPane.showMessageDialog(this, "Produto editado:\n" + produto);
             } catch (Exception e) {
                 System.out.println(e);
                 JOptionPane.showMessageDialog(this, "Erro ao cadastrar produto, tente novamente.");
@@ -271,7 +283,7 @@ public class ProdutoCadastrarVisao extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

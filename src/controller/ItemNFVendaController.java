@@ -12,14 +12,13 @@ public class ItemNFVendaController {
 
     private final ItemNFVendaDAO itemNFVendaDAO = new ItemNFVendaDAO();
 
-    public boolean inserir(ItemNFVenda itemNFVenda) {
+    public ItemNFVenda inserir(ItemNFVenda itemNFVenda) {
         try {
-            itemNFVendaDAO.inserir(itemNFVenda);
-            return true;
+            return itemNFVendaDAO.newInserir(itemNFVenda);
         } catch (RuntimeException e) {
             System.out.println(e);
+            return null;
         }
-        return false;
     }
 
     public List<ItemNFVenda> listarItensNFVenda() {

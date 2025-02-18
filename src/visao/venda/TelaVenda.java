@@ -5,8 +5,13 @@
  */
 package visao.venda;
 
+import controller.FormaPagamentoController;
+import controller.ItemNFVendaController;
+import controller.NFVendaController;
+import controller.NFVendaPagamentoController;
 import controller.ProdutoController;
 import java.awt.event.KeyEvent;
+import java.sql.Date;
 import java.text.NumberFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -19,6 +24,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ItemNFVenda;
 import model.NFVenda;
+import model.FormaPagamento;
+import model.NFVendaPagamento;
 import model.Produto;
 import visao.usuario.TelaMenu;
 
@@ -29,6 +36,7 @@ import visao.usuario.TelaMenu;
 public class TelaVenda extends javax.swing.JFrame {
 
     private List<ItemNFVenda> itensNFVenda;
+    private Double valorTotal;
 
     /**
      * Creates new form venda
@@ -36,7 +44,6 @@ public class TelaVenda extends javax.swing.JFrame {
     public TelaVenda() {
         initComponents();
         setTitle("Lanchonete Ota's - Tela Venda");
-        setLocationRelativeTo(null);
         setLocationRelativeTo(null);
         this.atualizarTela();
     }
@@ -54,13 +61,26 @@ public class TelaVenda extends javax.swing.JFrame {
         atualizarData();
     }
 
+    private void limparTela() {
+        atualizarData();
+        DefaultTableModel model = (DefaultTableModel) tableItensNF.getModel();
+        model.setNumRows(0);
+        txtCodigoProduto.setText("");
+        txtVendaCpfCliente.setText("");
+        valorTotal = 0.0;
+        infoTotal.setText(formatarValor(valorTotal));
+    }
+
     private void preencherTabela() {
-        Double valor = 0.0;
+        valorTotal = 0.0;
+        DefaultTableModel model = (DefaultTableModel) tableItensNF.getModel();
+        model.setNumRows(0);
         try {
+            if (itensNFVenda == null) {
+                return;
+            }
             if (!itensNFVenda.isEmpty()) {
 //                NFVenda nfVenda = new NFVenda();
-                DefaultTableModel model = (DefaultTableModel) tableItensNF.getModel();
-                model.setNumRows(0);
                 for (ItemNFVenda itemNFVenda : itensNFVenda) {
                     Object[] obj = {
                         itemNFVenda.getCodigo_produto(),
@@ -69,7 +89,7 @@ public class TelaVenda extends javax.swing.JFrame {
                         itemNFVenda.getQuantidade(),
                         itemNFVenda.getValor_total()
                     };
-                    valor += itemNFVenda.getValor_total();
+                    valorTotal += itemNFVenda.getValor_total();
                     model.addRow(obj);
                 }
             } else {
@@ -78,7 +98,7 @@ public class TelaVenda extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println(e);
         }
-        infoTotal.setText(formatarValor(valor));
+        infoTotal.setText(formatarValor(valorTotal));
     }
 
     private void atualizarData() {
@@ -112,10 +132,13 @@ public class TelaVenda extends javax.swing.JFrame {
         infoTotal = new javax.swing.JLabel();
         btnVoltarMenu = new javax.swing.JButton();
         btnEmitirNF = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        cbMetodoPagamento = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Lanchonete Ota's - Venda");
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -180,6 +203,15 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Pagamento");
+
+        cbMetodoPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DIN", "CC", "CD", "PIX" }));
+        cbMetodoPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMetodoPagamentoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,47 +227,54 @@ public class TelaVenda extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtVendaCpfCliente)
                             .addComponent(txtCodigoProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnBuscarProduto))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(89, 89, 89)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbMetodoPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(infoData)
-                        .addGap(214, 214, 214)
-                        .addComponent(jLabel1))
+                        .addComponent(infoData))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnVoltarMenu)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEmitirNF)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(infoTotal)
-                                    .addComponent(jLabel4))
-                                .addGap(20, 20, 20))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnVoltarMenu)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnEmitirNF)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(infoTotal)
+                                        .addComponent(jLabel4))
+                                    .addGap(20, 20, 20))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(infoData, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel1)))
+                .addContainerGap()
+                .addComponent(infoData, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel1)
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtVendaCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtVendaCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(cbMetodoPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtCodigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBuscarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(txtCodigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,7 +288,7 @@ public class TelaVenda extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnVoltarMenu)
                             .addComponent(btnEmitirNF))))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -273,15 +312,76 @@ public class TelaVenda extends javax.swing.JFrame {
 
     private void btnEmitirNFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmitirNFActionPerformed
         // TODO add your handling code here:
-        System.out.println("nota emitida");
         if (txtVendaCpfCliente.getText().isEmpty()) {
             // Cliente Padrão
             txtVendaCpfCliente.setText("000.000.000-00");
         }
+        String cpfFormatado = txtVendaCpfCliente.getText().replaceAll("\\D", "");
         String regexCPF = "^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$";
         if (!Pattern.matches(regexCPF, txtVendaCpfCliente.getText())) {
             JOptionPane.showMessageDialog(this, "Você não inseriu um CPF válido.");
+            return;
         }
+        DefaultTableModel model = (DefaultTableModel) tableItensNF.getModel();
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Você não inseriu nenhum item na sua nota fiscal.");
+            return;
+        }
+        String pagamento = (String) cbMetodoPagamento.getSelectedItem();
+        FormaPagamentoController formaPagamentoController = new FormaPagamentoController();
+        FormaPagamento formaPagamento = null;
+        switch (pagamento) {
+            case "DIN": {
+                formaPagamento = formaPagamentoController.procurarPorNome("Dinheiro");
+                break;
+            }
+            case "CC": {
+                formaPagamento = formaPagamentoController.procurarPorNome("Cartão de Crédito");
+                break;
+            }
+            case "CD": {
+                formaPagamento = formaPagamentoController.procurarPorNome("Cartão de Débito");
+                break;
+            }
+            case "PIX": {
+                formaPagamento = formaPagamentoController.procurarPorNome("Pix");
+                break;
+            }
+        }
+        if (formaPagamento == null) {
+            JOptionPane.showMessageDialog(this, "Um erro ocorreu, tente novamente.");
+            return;
+        }
+
+        NFVendaController nfVendaController = new NFVendaController();
+        NFVenda nfVenda = new NFVenda();
+
+        NFVendaPagamentoController nfVendaPagamentoController = new NFVendaPagamentoController();
+        NFVendaPagamento nfVendaPagamento = new NFVendaPagamento();
+
+        ItemNFVendaController itemNFVendaController = new ItemNFVendaController();
+
+        nfVenda.setCpfCliente(cpfFormatado);
+        nfVenda.setItemsNFVenda(itensNFVenda);
+        nfVenda.setDataEmissao(new Date(System.currentTimeMillis()));
+        nfVenda.setValor(valorTotal);
+
+        nfVenda = nfVendaController.inserir(nfVenda);
+
+        nfVendaPagamento.setCodigo_nf(nfVenda.getCodigo());
+        nfVendaPagamento.setCodigo_pagamento(formaPagamento.getTipo());
+
+        nfVendaPagamento = nfVendaPagamentoController.inserir(nfVendaPagamento);
+
+        for (ItemNFVenda itemNFVenda : itensNFVenda) {
+            itemNFVenda.setCodigo_nf(nfVenda.getCodigo());
+            itemNFVenda = itemNFVendaController.inserir(itemNFVenda);
+        }
+
+        System.out.println(nfVenda);
+        System.out.println(nfVendaPagamento);
+        JOptionPane.showMessageDialog(this, "Imprimindo comprovante...");
+        limparTela();
     }//GEN-LAST:event_btnEmitirNFActionPerformed
 
     private void txtCodigoProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoProdutoKeyPressed
@@ -336,6 +436,10 @@ public class TelaVenda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCodigoProdutoKeyPressed
 
+    private void cbMetodoPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMetodoPagamentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbMetodoPagamentoActionPerformed
+
     private String formatarValor(Double valor) {
         NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         return formatoMoeda.format(valor);
@@ -381,12 +485,14 @@ public class TelaVenda extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarProduto;
     private javax.swing.JButton btnEmitirNF;
     private javax.swing.JButton btnVoltarMenu;
+    private javax.swing.JComboBox<String> cbMetodoPagamento;
     private javax.swing.JLabel infoData;
     private javax.swing.JLabel infoTotal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollBar jScrollBar2;
     private javax.swing.JScrollPane jScrollPane1;

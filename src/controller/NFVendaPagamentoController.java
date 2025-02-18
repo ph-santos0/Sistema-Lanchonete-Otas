@@ -12,14 +12,13 @@ public class NFVendaPagamentoController {
 
     private final NFVendaPagamentoDAO nfVendaPagamentoDAO = new NFVendaPagamentoDAO();
 
-    public boolean inserir(NFVendaPagamento nfVendaPagamento) {
+    public NFVendaPagamento inserir(NFVendaPagamento nfVendaPagamento) {
         try {
-            nfVendaPagamentoDAO.inserir(nfVendaPagamento);
-            return true;
+            return nfVendaPagamentoDAO.newInserir(nfVendaPagamento);
         } catch (RuntimeException e) {
             System.out.println(e);
+            return null;
         }
-        return false;
     }
 
     public List<NFVendaPagamento> listarNFVendaPagamentos() {

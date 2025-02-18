@@ -9,15 +9,15 @@ import model.NFVenda;
  * @author ph-santos
  */
 public class NFVendaController {
+
     private final NFVendaDAO nfVendaDAO = new NFVendaDAO();
 
-    public boolean inserir(NFVenda nfVenda) {
+    public NFVenda inserir(NFVenda nfVenda) {
         try {
-            nfVendaDAO.inserir(nfVenda);
-            return true;
+            return nfVendaDAO.newInserir(nfVenda);
         } catch (RuntimeException e) {
             System.out.println(e);
-            return false;
+            return null;
         }
     }
 

@@ -76,6 +76,11 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Código:");
 
+        txtProdutoCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtProdutoCodigoActionPerformed(evt);
+            }
+        });
         txtProdutoCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtProdutoCodigoKeyPressed(evt);
@@ -123,6 +128,11 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
                 tableProdutoListaMouseClicked(evt);
             }
         });
+        tableProdutoLista.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tableProdutoListaKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableProdutoLista);
 
         btnVoltarVenda.setText("Voltar");
@@ -148,24 +158,25 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtProdutoCodigo))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtProdutoNome, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
                                 .addComponent(selecionarQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnVoltarVenda)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)))))
+                                .addComponent(jButton1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtProdutoNome, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtProdutoCodigo))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -183,15 +194,13 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnVoltarVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(selecionarQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(7, 7, 7)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnVoltarVenda, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -236,6 +245,7 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
             Integer estoque = (Integer) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 3);
             Double imposto = (Double) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 4);
             String unidade = (String) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 5);
+            Integer quantidade = (Integer) selecionarQuantidade.getValue();
             Produto produto = new Produto();
             produto.setCodigo(codigo);
             produto.setNome(nome);
@@ -247,7 +257,7 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
             itemNFVenda.setCodigo(1);
             itemNFVenda.setCodigo_nf(0);
             itemNFVenda.setCodigo_produto(produto.getCodigo());
-            itemNFVenda.setQuantidade(1);
+            itemNFVenda.setQuantidade(quantidade);
             itemNFVenda.setValor_uni(produto.getValor());
             itemNFVenda.setValor_total(produto.getValor() * itemNFVenda.getQuantidade());
             itemNFVenda.setProduto(produto);
@@ -349,6 +359,46 @@ public class VendaProdutoConsultar extends javax.swing.JFrame {
             System.out.println(e);
         }
     }//GEN-LAST:event_selecionarQuantidadeStateChanged
+
+    private void tableProdutoListaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableProdutoListaKeyPressed
+        // TODO add your handling code here:
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER) {
+            try {
+                Integer codigo = (Integer) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 0);
+                String nome = (String) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 1);
+                Double valor = (Double) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 2);
+                Integer estoque = (Integer) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 3);
+                Double imposto = (Double) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 4);
+                String unidade = (String) tableProdutoLista.getModel().getValueAt(tableProdutoLista.getSelectedRow(), 5);
+                Integer quantidade = (Integer) selecionarQuantidade.getValue();
+                Produto produto = new Produto();
+                produto.setCodigo(codigo);
+                produto.setNome(nome);
+                produto.setValor(valor);
+                produto.setEstoque(estoque);
+                produto.setImposto(imposto);
+                produto.setUnidade(unidade);
+                ItemNFVenda itemNFVenda = new ItemNFVenda();
+                itemNFVenda.setCodigo(1);
+                itemNFVenda.setCodigo_nf(0);
+                itemNFVenda.setCodigo_produto(produto.getCodigo());
+                itemNFVenda.setQuantidade(quantidade);
+                itemNFVenda.setValor_uni(produto.getValor());
+                itemNFVenda.setValor_total(produto.getValor() * itemNFVenda.getQuantidade());
+                itemNFVenda.setProduto(produto);
+                itensNFVenda.add(itemNFVenda);
+                this.telaVenda.setItensNFVenda(itensNFVenda);
+                this.setVisible(false);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_tableProdutoListaKeyPressed
+
+    private void txtProdutoCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProdutoCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtProdutoCodigoActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

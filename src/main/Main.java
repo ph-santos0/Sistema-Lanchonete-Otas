@@ -1,6 +1,6 @@
 package main;
 
-import visao.usuario.TelaMenu;
+import visao.usuario.TelaLogin;
 
 /**
  *
@@ -9,8 +9,8 @@ import visao.usuario.TelaMenu;
 public class Main {
 
     public static void main(String[] args) {
-        TelaMenu telaMenu = new TelaMenu();
-        telaMenu.setVisible(true);
+        TelaLogin telaLogin = new TelaLogin();
+        telaLogin.setVisible(true);
     }
 
 }

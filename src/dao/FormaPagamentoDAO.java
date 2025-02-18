@@ -24,6 +24,26 @@ public class FormaPagamentoDAO {
         }
     }
 
+    public List<FormaPagamento> procurarPorNome(String formaNome) {
+        List<FormaPagamento> formasPagamento = new ArrayList<>();
+        String sql = "SELECT * FROM forma_pagamento WHERE LOWER(tipo) = LOWER(?);";
+        try {
+            Connection connection = ConexaoBanco.getConexao();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, formaNome);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                FormaPagamento formaPagamento = new FormaPagamento();
+                formaPagamento.setCodigo(resultSet.getInt("Codigo"));
+                formaPagamento.setTipo(resultSet.getString("Tipo"));
+                formasPagamento.add(formaPagamento);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar formas de pagamento", e);
+        }
+        return formasPagamento;
+    }
+
     public List<FormaPagamento> listarFormasPagamento() {
         List<FormaPagamento> formasPagamento = new ArrayList<>();
         String sql = "SELECT * FROM Forma_Pagamento;";
