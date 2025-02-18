@@ -1,5 +1,6 @@
 package visao.usuario;
 
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import controller.FuncionarioController;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
@@ -13,9 +14,9 @@ public class TelaLogin extends javax.swing.JFrame {
     public TelaLogin() {
         initComponents();
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            System.out.println(e);
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         setTitle("Lanchonete Ota's - Login");
         setLocationRelativeTo(null);

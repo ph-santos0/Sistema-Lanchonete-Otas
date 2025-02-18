@@ -5,6 +5,7 @@
  */
 package visao.usuario;
 
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import model.Funcionario;
@@ -23,11 +24,11 @@ public class TelaMenu extends javax.swing.JFrame {
      * Creates new form TelaMenu
      */
     public TelaMenu() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+//        try {
+//            UIManager.setLookAndFeel(new FlatMacLightLaf());
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
 
 //        ImageIcon imagemFundo = new ImageIcon("public/logo.jpg");;
 //        JLabel labelFundo = new JLabel(imagemFundo);
@@ -73,6 +74,7 @@ public class TelaMenu extends javax.swing.JFrame {
         jLabel1.setText("Lanchonete Ota's - Menu");
 
         btnCadastrarProduto.setText("Cadastrar Produto");
+        btnCadastrarProduto.setFocusPainted(false);
         btnCadastrarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCadastrarProdutoActionPerformed(evt);
