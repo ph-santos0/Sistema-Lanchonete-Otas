@@ -23,7 +23,7 @@ O **Sistema Lanchonete Ota's** é um software desenvolvido durante a matéria de
 
 1. Clone o repositório:
    ```sh
-   git clone https://github.com/wfabi0/sistema-lanchonete-otas.git
+   git clone https://github.com/ph-santos0/Sistema-Lanchonete-Otas.git
    ```
 
 2. Importe o projeto na sua IDE.
